@@ -3,9 +3,9 @@ A place to share news, photos, and happenings with your family.
 
 BASIC ACCEPTANCE CRITERIA
 =========================
-* First user will register as the site owner.
-* Site owner will be able to invite family members to participate via email invitation.
-* User will be able to log in and log out of the site.
+* First user will register as the site admin.
+* Site admin will be able to invite family members and setup new user logins.
+* User will be able to perform basic login administration (edit / save username, password, password hint.
 * User will have a profile including basic biographical information and account settings.
 * After login, user will have a "front page" displaying recent news, photos, and event agenda
 * Users can post news, photos, and event items to the site.
@@ -15,32 +15,41 @@ BASIC ACCEPTANCE CRITERIA
 * User can view and comment on posted items that are visible to the user but created by another user.
 * Posted items can have an unlimited number of comments.
 
+Entities
 
-* News items will have the following fields: 
-	title, 
-	text, 
-	created_by, 
-	time_stamp, 
-	comments
+##NewsItem: 
+*	title (string), 
+*	text (string), 
+*	created_by (ApplicationUser), 
+*	time_stamp (DateTime), 
+*	comments (List<Comment>)
 
-* Photo items will have the following fields:
-	title, 
-	photo,
-	description, 
-	created_by, 
-	time_stamp, 
-	comments
+##PhotoItem:
+*	title (string), 
+*	photo (Image),
+*	description (string), 
+*	created_by (ApplicationUser), 
+*	time_stamp (DateTime), 
+*	comments (List<Comment>)
 
-* Event items will have the following fields:
-	Title,
-	start_date,
-	end_date,
-	start_time,
-	end_time,
-	description,
-	created_by,
-	time_stamp,
-	comments
+##EventItem:
+*	Title (string),
+*	start_DateTime (DateTime),
+*	end_DateTime (DateTime),
+*	description (string),
+*	created_by (ApplicationUser),
+*	time_stamp (DateTime),
+*	comments (List<Comment>)
+
+##Comment
+*	text (string),
+*	created_by (ApplicationUser),
+*	time_stamp (DateTime)
+
+
+##NewsList
+##PhotoList
+##EventList
 
 ADVANCED ACCEPTANCE CRITERIA
 ============================
