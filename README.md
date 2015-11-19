@@ -30,9 +30,6 @@ Entities
 * PhoneNumber2
 * Email
 * AboutMe
-*
-*
-*
 
 
 ##NewsItem: 
@@ -65,9 +62,9 @@ Entities
 *	time_stamp (DateTime)
 
 
-##NewsList List<NewsItem>
-##PhotoList List<PhotoItem>
-##EventList List<EventItem>
+##NewsList `List<NewsItem>`
+##PhotoList `List<PhotoItem>`
+##EventList `List<EventItem>`
 
 ADVANCED ACCEPTANCE CRITERIA
 ============================
