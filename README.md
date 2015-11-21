@@ -9,9 +9,9 @@ BASIC ACCEPTANCE CRITERIA
 * User will have a profile including basic biographical information and account settings.
 * After login, user will have a "front page" displaying recent news, photos, and event agenda
 * Users can post news, photos, and event items to the site.
-* User can create, read, update, and delete news items to the site.
-* User can create, read, update, and delete photo items to the site.
-* User can create, read, update, and delete event items to the site.
+* User can create, read, update, and delete news items which the user created himself.
+* User can create, read, update, and delete photo items which the user created himself.
+* User can create, read, update, and delete event items which the user created himself.
 * User can view and comment on posted items that are visible to the user but created by another user.
 * Posted items can have an unlimited number of comments.
 
