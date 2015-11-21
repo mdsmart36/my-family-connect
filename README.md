@@ -3,69 +3,61 @@ A place to share news, photos, and happenings with your family.
 
 BASIC ACCEPTANCE CRITERIA
 =========================
-* First user will register as the site admin.
-* Site admin will be able to invite family members and setup new user logins.
-* User will be able to perform basic login administration (edit / save username, password, password hint).
-* User will have a profile including basic biographical information and account settings.
-* After login, user will have a "front page" displaying recent news, photos, and event agenda
-* Users can post news, photos, and event items to the site.
+* Users will be able to register and log in to the site.
+* User will have a profile including basic biographical information.
+* After login, user will be presented with the standard front page / dashboard displaying recent news and photos.
 * User can create, read, update, and delete news items which the user created himself.
 * User can create, read, update, and delete photo items which the user created himself.
-* User can create, read, update, and delete event items which the user created himself.
-* User can view and comment on posted items that are visible to the user but created by another user.
+* User can view and comment on posted items that are created by other users.
 * Posted items can have an unlimited number of comments.
-
-Entities
-
-##UserProfile
-* FirstName
-* LastName
-* Birthday (DateTime)
-* Address1
-* Address2
-* City
-* State
-* Zip
-* PhoneNumber1
-* PhoneNumber2
-* Email
-* AboutMe
-
-
-##NewsItem: 
-*	title (string), 
-*	text (string), 
-*	created_by (ApplicationUser), 
-*	time_stamp (DateTime), 
-*	comments (List<Comment>)
-
-##PhotoItem:
-*	title (string), 
-*	photo (Image),
-*	description (string), 
-*	created_by (ApplicationUser), 
-*	time_stamp (DateTime), 
-*	comments (List<Comment>)
-
-##EventItem:
-*	Title (string),
-*	start_DateTime (DateTime),
-*	end_DateTime (DateTime),
-*	description (string),
-*	created_by (ApplicationUser),
-*	time_stamp (DateTime),
-*	comments (List<Comment>)
-
-##Comment
-*	text (string),
-*	created_by (ApplicationUser),
-*	time_stamp (DateTime)
-
-
-##NewsList `List<NewsItem>`
-##PhotoList `List<PhotoItem>`
-##EventList `List<EventItem>`
 
 ADVANCED ACCEPTANCE CRITERIA
 ============================
+* User can create, read, update, and delete calendar events which the user created himself.
+* Users can communicate in real-time chat when they are logged in to the site.
 
+#Basic Acceptance Criteria Entities
+
+##User
+* UserId: integer
+* FirstName: string
+* LastName: string
+* Birthdate: DateTime
+* Address1: string
+* Address2: string
+* City: string
+* State: string
+* Zip: string
+* PhoneNumber1: string
+* PhoneNumber2: string
+* Email: string
+* AboutMe: string
+
+##NewsPhotoItem: 
+* NewsPhotoId: integer
+* Title: string 
+* Text: string
+* HasPhoto: bool
+* Photo: Image
+* Created_by: ApplicationUser
+* Time_stamp: DateTime
+* Comments: List<Comment> 
+
+##Comment
+* CommentId: integer
+* Text: string
+* Created_by: ApplicationUser
+* Time_stamp: DateTime 
+
+
+#Advanced Acceptance Criteria Entities
+
+##EventItem:
+* EventId: integer
+* Title: string
+* Start_DateTime: DateTime
+* End_DateTime: DateTime
+* Description: string
+* Created_by: ApplicationUser
+* Time_stamp: DateTime
+* Comments: List<Comment> 
