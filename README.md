@@ -1,4 +1,4 @@
-# MyFamilyConnect
+#MyFamilyConnect
 A place to share news, photos, and happenings with your family.
 
 BASIC ACCEPTANCE CRITERIA
