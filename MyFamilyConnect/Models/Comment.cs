@@ -10,7 +10,7 @@ namespace MyFamilyConnect.Models
     {
         public int CommentId { get; set; }
         public string Text { get; set; }
-        public ApplicationUser Owner { get; set; }
+        public int UserProfileId { get; set; }
         public DateTime TimeStamp { get; set; }
     }
 }

@@ -9,9 +9,10 @@ namespace MyFamilyConnect.Models
     public class UserProfile
     {
         public int UserId { get; set; }
+        public ApplicationUser Owner { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime Birthdate { get; set; }
+        public DateTime? Birthdate { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string City { get; set; }

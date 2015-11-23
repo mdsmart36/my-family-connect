@@ -4,6 +4,8 @@ using MyFamilyConnect.Models;
 
 namespace MyFamilyConnect.Tests.Models
 {
+
+    // Since this class is a data model, we only need to test here that an instance can be created and that the properties can be correctly assigned and retrieved.
     [TestClass]
     public class CommentTests
     {
@@ -19,14 +21,17 @@ namespace MyFamilyConnect.Tests.Models
         [TestMethod]
         public void CommentEnsurePropertiesWork()
         {
+            // Arrange
             DateTime time = new DateTime();
+            // Act
             Comment comment = new Comment()
             {
-                CommentId = 1, Text = "this is my comment", Owner = user1, TimeStamp = time
+                CommentId = 1, Text = "this is my comment", UserProfileId = 1, TimeStamp = time
             };
+            // Assert
             Assert.AreEqual(1, comment.CommentId);
             Assert.AreEqual("this is my comment", comment.Text);
-            Assert.AreEqual(user1, comment.Owner);
+            Assert.AreEqual(1, comment.UserProfileId);
             Assert.AreEqual(time, comment.TimeStamp);
         }
     }

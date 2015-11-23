@@ -18,8 +18,9 @@ ADVANCED ACCEPTANCE CRITERIA
 
 #Basic Acceptance Criteria Entities
 
-##User
+##UserProfile
 * UserId: integer
+* Owner: ApplicationUser
 * FirstName: string
 * LastName: string
 * Birthdate: DateTime
@@ -39,14 +40,14 @@ ADVANCED ACCEPTANCE CRITERIA
 * Text: string
 * HasPhoto: bool
 * Photo: Image
-* Created_by: ApplicationUser
+* UserProfileId: integer
 * Time_stamp: DateTime
 * Comments: List<Comment> 
 
 ##Comment
 * CommentId: integer
 * Text: string
-* Created_by: ApplicationUser
+* UserProfileId: integer
 * Time_stamp: DateTime 
 
 

@@ -14,7 +14,7 @@ namespace MyFamilyConnect.Models
         public string Text { get; set; }
         public bool HasPhoto { get; set; }
         public Image Photo { get; set; }
-        public ApplicationUser Owner { get; set; }
+        public int UserProfileId { get; set; }
         public DateTime TimeStamp { get; set; }
         public virtual List<Comment> Comments { get; set; }
     }
