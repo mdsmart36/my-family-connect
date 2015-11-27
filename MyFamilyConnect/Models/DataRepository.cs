@@ -20,6 +20,11 @@ namespace MyFamilyConnect.Models
             return GetAllNewsPhotoItems().Count;
         }
 
+        public int GetProfileCount()
+        {
+            return GetAllUserProfiles().Count;
+        }
+
         public bool AddNewsPhotoItem(NewsPhotoItem news_item)
         {
             bool result = true;
@@ -27,6 +32,21 @@ namespace MyFamilyConnect.Models
             {
                 context.NewsAndPhotos.Add(news_item);
                 context.SaveChanges();                
+            }
+            catch (ArgumentNullException)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public bool AddUserProfile(UserProfile profile)
+        {
+            bool result = true;
+            try
+            {
+                context.UserProfiles.Add(profile);
+                context.SaveChanges();
             }
             catch (ArgumentNullException)
             {
@@ -46,6 +66,19 @@ namespace MyFamilyConnect.Models
             {
                 throw;
             }                        
+        }
+
+        public List<UserProfile> GetAllUserProfiles()
+        {
+            try
+            {
+                var query = from l in context.UserProfiles select l;
+                return query.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<NewsPhotoItem> GetNewsPhotosForUser(int userProfileId)
