@@ -205,5 +205,52 @@ namespace MyFamilyConnect.Models
                 return null;                
             }
         }
+
+        public Comment GetComment(int commentId)
+        {
+            try
+            {
+                var query = from l in context.Comments where l.CommentId == commentId select l;
+                return query.First();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateComment(int commentId, string newText)
+        {
+            var success = true;
+            try
+            {
+                var query = context.Comments.Where(n => n.CommentId == commentId);
+                var result = query.First();
+                result.Text = newText;
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                success = false;
+            }
+            return success;
+        }
+
+        public bool DeleteComment(int commentId)
+        {
+            var result = true;
+            try
+            {
+                var query = context.Comments.Where(n => n.CommentId == commentId);
+                var foundComment = query.First();
+                context.Comments.Remove(foundComment);
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+            return result;
+        }
     }
 }

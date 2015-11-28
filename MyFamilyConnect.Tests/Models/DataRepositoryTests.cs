@@ -386,19 +386,67 @@ namespace MyFamilyConnect.Tests.Models
         [TestMethod]
         public void DataRepoReadComment()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            ConnectCommentMocksToDataSource();
 
+            // Act
+            var success1 = data_repo.AddComment(comment1);
+            var success2 = data_repo.AddComment(comment2);
+            var expected = "this is what i had to say";
+            var actual = data_repo.GetComment(comment1.CommentId).Text;
+
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void DataRepoUpdateComment()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            ConnectCommentMocksToDataSource();
 
+            // Act
+            var success1 = data_repo.AddComment(comment1);
+            var success2 = data_repo.AddComment(comment2);
+            var newText1 = "I'm changing what I said to this";
+            var newText2 = "I'm changing what I said to that";
+            success1 = data_repo.UpdateComment(comment1.CommentId, newText1);
+            success2 = data_repo.UpdateComment(comment2.CommentId, newText2);
+            var actual1 = data_repo.GetComment(comment1.CommentId);
+            var actual2 = data_repo.GetComment(comment2.CommentId);
+
+            // Assert
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.AreEqual(newText1, actual1.Text);
+            Assert.AreEqual(newText2, actual2.Text);
         }
 
         [TestMethod]
         public void DataRepoDeleteComment()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            ConnectCommentMocksToDataSource();
 
+            // Act
+            data_repo.AddComment(comment1);
+            data_repo.AddComment(comment2);
+            var success = data_repo.DeleteComment(comment1.CommentId);
+            var found = data_repo.GetComment(comment1.CommentId);
+
+            // Assert
+            Assert.AreEqual(1, data_repo.GetAllComments().Count());
+            Assert.IsNull(found);
+            Assert.IsTrue(success);
         }
     }
 }
