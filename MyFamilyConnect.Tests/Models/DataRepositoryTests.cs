@@ -304,25 +304,83 @@ namespace MyFamilyConnect.Tests.Models
         [TestMethod]
         public void DataRepoReadUserProfile()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            UserProfile profile1 = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile2 = new UserProfile { UserId = 2, FirstName = "Sally", LastName = "Smart" };
+            ConnectProfileMocksToDataSource();
+
+            // Act
+            data_repo.AddUserProfile(profile1);
+            data_repo.AddUserProfile(profile2);
+            UserProfile found = data_repo.GetUserProfile(profile1.UserId);
+
+            // Assert
+            Assert.AreEqual(found.FirstName, profile1.FirstName);
 
         }
 
         [TestMethod]
         public void DataRepoUpdateUserProfile()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            UserProfile profile1 = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile2 = new UserProfile { UserId = 2, FirstName = "Sally", LastName = "Smart" };
+            ConnectProfileMocksToDataSource();
 
+            // Act
+            data_repo.AddUserProfile(profile1);
+            data_repo.AddUserProfile(profile2);
+            string newName = "Hannah";
+            data_repo.UpdateUserProfile(profile2.UserId, newName);
+            var found = data_repo.GetUserProfile(profile2.UserId);
+
+            // Assert
+            Assert.AreEqual(newName, found.FirstName);
         }
 
         [TestMethod]
         public void DataRepoDeleteUserProfile()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            UserProfile profile1 = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile2 = new UserProfile { UserId = 2, FirstName = "Sally", LastName = "Smart" };
+            UserProfile profile3 = new UserProfile { UserId = 3, FirstName = "Micah", LastName = "Smart" };
+            ConnectProfileMocksToDataSource();
 
+            // Act
+            data_repo.AddUserProfile(profile1);
+            data_repo.AddUserProfile(profile2);
+            data_repo.AddUserProfile(profile3);
+            var success = data_repo.DeleteUserProfile(profile1.UserId);
+            success = data_repo.DeleteUserProfile(profile2.UserId);
+            var found = data_repo.GetUserProfile(profile2.UserId);
+
+            // Assert
+            Assert.IsNull(found); // cannot find profile which has been deleted
+            Assert.IsTrue(success); // successfully deleted a profile
+            Assert.AreEqual(1, data_repo.GetAllUserProfiles().Count); // only 1 profile left
         }
 
         [TestMethod]
         public void DataRepoCreateComment()
         {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            ConnectCommentMocksToDataSource();
 
+            // Act
+            var success1 = data_repo.AddComment(comment1);
+            var success2 = data_repo.AddComment(comment2);
+
+            // Assert
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.AreEqual(2, data_repo.GetAllComments().Count());
         }
 
         [TestMethod]

@@ -95,6 +95,20 @@ namespace MyFamilyConnect.Models
             
         }
 
+        public UserProfile GetUserProfile(int profileId)
+        {
+            try
+            {
+                var query = from p in context.UserProfiles where p.UserId == profileId select p;
+                return query.First();
+            }
+            catch (Exception)
+            {
+                return null;
+                //throw;
+            }
+        }
+
         public bool UpdateNewsPhotoTitle(int userProfileId, string oldTitle, string newTitle)
         {
             var success = true;
@@ -113,6 +127,23 @@ namespace MyFamilyConnect.Models
             
         }
 
+        public bool UpdateUserProfile(int userId, string newName)
+        {
+            var success = true;
+            try
+            {
+                var query = context.UserProfiles.Where(n => n.UserId == userId);
+                var result = query.First();
+                result.FirstName = newName;
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                success = false;
+            }
+            return success;
+        }
+
         public NewsPhotoItem DeleteNewsPhotoItem(NewsPhotoItem news_item1)
         {
             var result = new NewsPhotoItem();
@@ -128,6 +159,51 @@ namespace MyFamilyConnect.Models
                 throw;
             }            
             return result;
+        }
+
+        public bool DeleteUserProfile(int userId)
+        {
+            var result = true;
+            try
+            {
+                var query = context.UserProfiles.Where(n => n.UserId == userId);
+                var foundProfile = query.First();
+                context.UserProfiles.Remove(foundProfile);
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                result = false;                
+            }
+            return result;
+        }
+
+        public bool AddComment(Comment comment)
+        {
+            bool result = true;
+            try
+            {
+                context.Comments.Add(comment);
+                context.SaveChanges();
+            }
+            catch (ArgumentNullException)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public List<Comment> GetAllComments()
+        {
+            try
+            {
+                var query = from l in context.Comments select l;
+                return query.ToList();
+            }
+            catch (Exception)
+            {
+                return null;                
+            }
         }
     }
 }
