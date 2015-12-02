@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace MyFamilyConnect.Models
 {
     public class UserProfile
-    {
-        public int UserId { get; set; }
-        public ApplicationUser Owner { get; set; }
+    {        
+        public int UserProfileId { get; set; }
+        //public ApplicationUser Owner { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? Birthdate { get; set; }

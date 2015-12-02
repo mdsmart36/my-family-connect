@@ -181,13 +181,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsPhotoItemsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\DataContext.cs" />
-    <Compile Include="Models\DataRepository.cs" />
+    <Compile Include="DAL\DataContext.cs" />
+    <Compile Include="DAL\DataRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewsPhotoItem.cs" />
@@ -255,6 +256,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Create.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Delete.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Details.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Edit.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

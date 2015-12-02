@@ -25,7 +25,7 @@ namespace MyFamilyConnect.Tests.Models
             // Act
             UserProfile profile = new UserProfile()
             {
-                AboutMe = "about me", Address1 = "address1", Address2 = "address2", Birthdate = birthdate, City = "city", Email = "email", FirstName = "firstname", LastName = "lastname", Owner = user1, Phone1 = "99912345", Phone2 = "99991234", State = "TN", UserId = 1, Zip = "37087"
+                AboutMe = "about me", Address1 = "address1", Address2 = "address2", Birthdate = birthdate, City = "city", Email = "email", FirstName = "firstname", LastName = "lastname", Phone1 = "99912345", Phone2 = "99991234", State = "TN", UserProfileId = 1, Zip = "37087"
             };
 
             // Assert
@@ -37,12 +37,12 @@ namespace MyFamilyConnect.Tests.Models
             Assert.AreEqual("email", profile.Email);
             Assert.AreEqual("firstname", profile.FirstName);
             Assert.AreEqual("lastname", profile.LastName);
-            Assert.AreEqual(user1, profile.Owner);
+            //Assert.AreEqual(user1, profile.Owner);
             Assert.AreEqual("99912345", profile.Phone1);
             Assert.AreEqual("99991234", profile.Phone2);
             Assert.AreEqual("TN", profile.State);
             Assert.AreEqual("37087", profile.Zip);
-            Assert.AreEqual(1, profile.UserId);
+            Assert.AreEqual(1, profile.UserProfileId);
         }
     }
 }

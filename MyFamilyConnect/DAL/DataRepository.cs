@@ -25,6 +25,11 @@ namespace MyFamilyConnect.Models
             return GetAllUserProfiles().Count;
         }
 
+        public int GetCommentCount()
+        {
+            return GetAllComments().Count;
+        }
+
         public bool AddNewsPhotoItem(NewsPhotoItem news_item)
         {
             bool result = true;
@@ -64,7 +69,8 @@ namespace MyFamilyConnect.Models
             }
             catch (Exception)
             {
-                throw;
+                return null;
+                //throw;
             }                        
         }
 
@@ -77,7 +83,7 @@ namespace MyFamilyConnect.Models
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
         }
 
@@ -90,22 +96,20 @@ namespace MyFamilyConnect.Models
             }
             catch (Exception)
             {
-                throw;
-            }
-            
+                return null;
+            }            
         }
 
         public UserProfile GetUserProfile(int profileId)
         {
             try
             {
-                var query = from p in context.UserProfiles where p.UserId == profileId select p;
+                var query = from p in context.UserProfiles where p.UserProfileId == profileId select p;
                 return query.First();
             }
             catch (Exception)
             {
-                return null;
-                //throw;
+                return null;               
             }
         }
 
@@ -127,12 +131,12 @@ namespace MyFamilyConnect.Models
             
         }
 
-        public bool UpdateUserProfile(int userId, string newName)
+        public bool UpdateUserProfile(int UserProfileId, string newName)
         {
             var success = true;
             try
             {
-                var query = context.UserProfiles.Where(n => n.UserId == userId);
+                var query = context.UserProfiles.Where(n => n.UserProfileId == UserProfileId);
                 var result = query.First();
                 result.FirstName = newName;
                 context.SaveChanges();
@@ -144,29 +148,29 @@ namespace MyFamilyConnect.Models
             return success;
         }
 
-        public NewsPhotoItem DeleteNewsPhotoItem(NewsPhotoItem news_item1)
-        {
-            var result = new NewsPhotoItem();
-            try
-            {
-                var query = context.NewsAndPhotos.Where(n => n == news_item1);
-                result = query.First();
-                context.NewsAndPhotos.Remove(result);
-                context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }            
-            return result;
-        }
-
-        public bool DeleteUserProfile(int userId)
+        public bool DeleteNewsPhotoItem(NewsPhotoItem news_item1)
         {
             var result = true;
             try
             {
-                var query = context.UserProfiles.Where(n => n.UserId == userId);
+                var query = context.NewsAndPhotos.Where(n => n == news_item1);
+                var itemToDelete = query.First();
+                context.NewsAndPhotos.Remove(itemToDelete);
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                result = false;               
+            }            
+            return result;
+        }
+
+        public bool DeleteUserProfile(int UserProfileId)
+        {
+            var result = true;
+            try
+            {
+                var query = context.UserProfiles.Where(n => n.UserProfileId == UserProfileId);
                 var foundProfile = query.First();
                 context.UserProfiles.Remove(foundProfile);
                 context.SaveChanges();
@@ -217,7 +221,7 @@ namespace MyFamilyConnect.Models
             {
                 return null;
             }
-        }
+        }        
 
         public bool UpdateComment(int commentId, string newText)
         {
@@ -251,6 +255,42 @@ namespace MyFamilyConnect.Models
                 result = false;
             }
             return result;
+        }
+
+        public NewsPhotoItem GetNewsPhotoItem(int NewsPhotoItemId)
+        {
+            NewsPhotoItem found = new NewsPhotoItem();
+            try
+            {
+                var query = context.NewsAndPhotos.Where(n => n.NewsPhotoItemId == NewsPhotoItemId);
+                found = query.First();
+            }
+            catch (Exception)
+            {
+                found = null;                
+            }
+            return found;
+        }
+
+        public bool UpdateNewsProperty(int NewsPhotoItemId, string propertyName, object propertyValue)
+        {
+            var isSuccessful = true;
+            try
+            {
+                var query = context.NewsAndPhotos.Where(a => a.NewsPhotoItemId == NewsPhotoItemId);
+                var found = query.First();
+
+                Type n = typeof(NewsPhotoItem);
+                PropertyInfo propertyToUpdate = n.GetProperty(propertyName);                
+                propertyToUpdate.SetValue(found, propertyValue);
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                isSuccessful = false;
+                throw;
+            }
+            return isSuccessful;
         }
     }
 }

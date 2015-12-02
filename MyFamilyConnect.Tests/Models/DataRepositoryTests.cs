@@ -109,7 +109,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 2,
+                NewsPhotoItemId = 2,
                 UserProfileId = 1,
                 Text = "news text"
             };
@@ -118,7 +118,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 2,
+                NewsPhotoItemId = 2,
                 UserProfileId = 1,
                 Text = "news text"
             };
@@ -148,7 +148,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title 1",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 1,
+                NewsPhotoItemId = 1,
                 UserProfileId = 1,
                 Text = "news text 1"
             };
@@ -157,7 +157,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title 2",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 2,
+                NewsPhotoItemId = 2,
                 UserProfileId = 1,
                 Text = "news text 2"
             };
@@ -198,7 +198,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title 1",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 1,
+                NewsPhotoItemId = 1,
                 UserProfileId = 1,
                 Text = "news text 1"
             };
@@ -207,7 +207,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title 2",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 2,
+                NewsPhotoItemId = 2,
                 UserProfileId = 2,
                 Text = "news text 2"
             };
@@ -234,7 +234,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title 1",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 1,
+                NewsPhotoItemId = 1,
                 UserProfileId = 1,
                 Text = "news text 1"
             };
@@ -258,7 +258,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 2,
+                NewsPhotoItemId = 2,
                 UserProfileId = 1,
                 Text = "news text"
             };
@@ -267,7 +267,7 @@ namespace MyFamilyConnect.Tests.Models
                 Title = "title",
                 HasPhoto = false,
                 Comments = null,
-                NewsPhotoId = 2,
+                NewsPhotoItemId = 2,
                 UserProfileId = 1,
                 Text = "news text"
             };
@@ -277,11 +277,10 @@ namespace MyFamilyConnect.Tests.Models
             // Act                        
             data_repo.AddNewsPhotoItem(news_item1);
             data_repo.AddNewsPhotoItem(news_item2);
-            NewsPhotoItem news = data_repo.DeleteNewsPhotoItem(news_item1);
+            bool success = data_repo.DeleteNewsPhotoItem(news_item1);
 
             // Assert
-            Assert.IsNotNull(news);
-            Assert.AreEqual(news.UserProfileId, news_item1.UserProfileId);
+            Assert.IsTrue(success);
             Assert.AreEqual(1, data_repo.GetAllNewsPhotosCount());
         }
 
@@ -290,7 +289,7 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            UserProfile profile = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile = new UserProfile { UserProfileId = 1, FirstName = "Matt", LastName = "Smart" };
             ConnectProfileMocksToDataSource();
             
             // Act
@@ -306,14 +305,14 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            UserProfile profile1 = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
-            UserProfile profile2 = new UserProfile { UserId = 2, FirstName = "Sally", LastName = "Smart" };
+            UserProfile profile1 = new UserProfile { UserProfileId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile2 = new UserProfile { UserProfileId = 2, FirstName = "Sally", LastName = "Smart" };
             ConnectProfileMocksToDataSource();
 
             // Act
             data_repo.AddUserProfile(profile1);
             data_repo.AddUserProfile(profile2);
-            UserProfile found = data_repo.GetUserProfile(profile1.UserId);
+            UserProfile found = data_repo.GetUserProfile(profile1.UserProfileId);
 
             // Assert
             Assert.AreEqual(found.FirstName, profile1.FirstName);
@@ -325,16 +324,16 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            UserProfile profile1 = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
-            UserProfile profile2 = new UserProfile { UserId = 2, FirstName = "Sally", LastName = "Smart" };
+            UserProfile profile1 = new UserProfile { UserProfileId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile2 = new UserProfile { UserProfileId = 2, FirstName = "Sally", LastName = "Smart" };
             ConnectProfileMocksToDataSource();
 
             // Act
             data_repo.AddUserProfile(profile1);
             data_repo.AddUserProfile(profile2);
             string newName = "Hannah";
-            data_repo.UpdateUserProfile(profile2.UserId, newName);
-            var found = data_repo.GetUserProfile(profile2.UserId);
+            data_repo.UpdateUserProfile(profile2.UserProfileId, newName);
+            var found = data_repo.GetUserProfile(profile2.UserProfileId);
 
             // Assert
             Assert.AreEqual(newName, found.FirstName);
@@ -345,18 +344,18 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            UserProfile profile1 = new UserProfile { UserId = 1, FirstName = "Matt", LastName = "Smart" };
-            UserProfile profile2 = new UserProfile { UserId = 2, FirstName = "Sally", LastName = "Smart" };
-            UserProfile profile3 = new UserProfile { UserId = 3, FirstName = "Micah", LastName = "Smart" };
+            UserProfile profile1 = new UserProfile { UserProfileId = 1, FirstName = "Matt", LastName = "Smart" };
+            UserProfile profile2 = new UserProfile { UserProfileId = 2, FirstName = "Sally", LastName = "Smart" };
+            UserProfile profile3 = new UserProfile { UserProfileId = 3, FirstName = "Micah", LastName = "Smart" };
             ConnectProfileMocksToDataSource();
 
             // Act
             data_repo.AddUserProfile(profile1);
             data_repo.AddUserProfile(profile2);
             data_repo.AddUserProfile(profile3);
-            var success = data_repo.DeleteUserProfile(profile1.UserId);
-            success = data_repo.DeleteUserProfile(profile2.UserId);
-            var found = data_repo.GetUserProfile(profile2.UserId);
+            var success = data_repo.DeleteUserProfile(profile1.UserProfileId);
+            success = data_repo.DeleteUserProfile(profile2.UserProfileId);
+            var found = data_repo.GetUserProfile(profile2.UserProfileId);
 
             // Assert
             Assert.IsNull(found); // cannot find profile which has been deleted
@@ -447,6 +446,70 @@ namespace MyFamilyConnect.Tests.Models
             Assert.AreEqual(1, data_repo.GetAllComments().Count());
             Assert.IsNull(found);
             Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void DataRepoGetNewsPhotoItem()
+        {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);            
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            List<Comment> commentList = new List<Comment>();
+            commentList.Add(comment1);
+            commentList.Add(comment2);
+            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            {
+                Title = "title",
+                HasPhoto = false,
+                Comments = commentList,
+                NewsPhotoItemId = 2,
+                UserProfileId = 1,
+                Text = "news text"
+            };
+            ConnectNewsMocksToDataSource();
+
+            // Act
+            data_repo.AddNewsPhotoItem(news_item1);
+            NewsPhotoItem found = data_repo.GetNewsPhotoItem(news_item1.NewsPhotoItemId);
+            // Assert
+            Assert.AreEqual(2, found.Comments.Count);
+        }
+
+        [TestMethod]
+        public void DataRepoUpdateGenericNewsProperty()
+        {
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            List<Comment> commentList = new List<Comment>();
+            commentList.Add(comment1);
+            commentList.Add(comment2);
+            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            {
+                Title = "title",
+                HasPhoto = false,
+                Comments = commentList,
+                NewsPhotoItemId = 2,
+                UserProfileId = 1,
+                Text = "news text"
+            };
+            ConnectNewsMocksToDataSource();
+            
+            // Act
+            var expected = "This method works";
+            int id = news_item1.NewsPhotoItemId;
+            DateTime time = new DateTime();
+            data_repo.AddNewsPhotoItem(news_item1);
+            data_repo.UpdateNewsProperty(id, "Title", "This method works");
+            data_repo.UpdateNewsProperty(id, "HasPhoto", true);
+            data_repo.UpdateNewsProperty(id, "TimeStamp", time);
+            var found = data_repo.GetNewsPhotoItem(news_item1.NewsPhotoItemId);
+            
+            // Assert            
+            Assert.AreEqual(expected, found.Title);
+            Assert.IsTrue(found.HasPhoto);
+            Assert.AreEqual(time, found.TimeStamp);
         }
     }
 }
