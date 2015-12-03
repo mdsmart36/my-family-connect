@@ -179,14 +179,21 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NewsPhotoItemsController.cs" />
-    <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512021817508_InitialCreate.cs" />
+    <Compile Include="Migrations\201512021817508_InitialCreate.Designer.cs">
+      <DependentUpon>201512021817508_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512022253347_Migration1.cs" />
+    <Compile Include="Migrations\201512022253347_Migration1.Designer.cs">
+      <DependentUpon>201512022253347_Migration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="DAL\DataContext.cs" />
@@ -259,22 +266,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_NavPartial1.cshtml" />
     <Content Include="Views\NewsPhotoItems\Create.cshtml" />
     <Content Include="Views\NewsPhotoItems\Delete.cshtml" />
     <Content Include="Views\NewsPhotoItems\Details.cshtml" />
     <Content Include="Views\NewsPhotoItems\Edit.cshtml" />
     <Content Include="Views\NewsPhotoItems\Index.cshtml" />
-    <Content Include="Views\UserProfiles\Create.cshtml" />
-    <Content Include="Views\UserProfiles\Delete.cshtml" />
-    <Content Include="Views\UserProfiles\Details.cshtml" />
-    <Content Include="Views\UserProfiles\Edit.cshtml" />
-    <Content Include="Views\UserProfiles\Index.cshtml" />
-    <Content Include="Views\Shared\_NavPartial1.cshtml" />
-    <Content Include="Views\Comments\Create.cshtml" />
-    <Content Include="Views\Comments\Delete.cshtml" />
-    <Content Include="Views\Comments\Details.cshtml" />
-    <Content Include="Views\Comments\Edit.cshtml" />
-    <Content Include="Views\Comments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -288,6 +285,12 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201512021817508_InitialCreate.resx">
+      <DependentUpon>201512021817508_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512022253347_Migration1.resx">
+      <DependentUpon>201512022253347_Migration1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

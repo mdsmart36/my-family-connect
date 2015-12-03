@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
@@ -24,9 +27,6 @@
             @Html.DisplayNameFor(model => model.Photo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserProfileId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.TimeStamp)
         </th>
         <th></th>
@@ -34,6 +34,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserProfile.FirstName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -45,9 +48,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Photo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserProfileId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimeStamp)

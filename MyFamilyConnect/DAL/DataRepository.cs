@@ -87,7 +87,7 @@ namespace MyFamilyConnect.Models
             }
         }
 
-        public List<NewsPhotoItem> GetNewsPhotosForUser(int userProfileId)
+        public List<NewsPhotoItem> GetNewsPhotosForUser(int? userProfileId)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace MyFamilyConnect.Models
             }
         }
 
-        public bool UpdateNewsPhotoTitle(int userProfileId, string oldTitle, string newTitle)
+        public bool UpdateNewsPhotoTitle(int? userProfileId, string oldTitle, string newTitle)
         {
             var success = true;
             try

@@ -8,8 +8,7 @@ namespace MyFamilyConnect.Models
 {
     public class UserProfile
     {        
-        public int UserProfileId { get; set; }
-        //public ApplicationUser Owner { get; set; }
+        public int UserProfileId { get; set; }        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? Birthdate { get; set; }
@@ -22,6 +21,10 @@ namespace MyFamilyConnect.Models
         public string Phone2 { get; set; }
         public string Email { get; set; }
         public string AboutMe { get; set; }
+
+        // Navigation properties
+        public virtual ICollection<NewsPhotoItem> NewsPhotoItems { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
                 
     }
 }

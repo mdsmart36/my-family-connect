@@ -17,7 +17,8 @@ namespace MyFamilyConnect.Controllers
         // GET: NewsPhotoItems
         public ActionResult Index()
         {
-            return View(db.NewsAndPhotos.ToList());
+            var newsAndPhotos = db.NewsAndPhotos.Include(n => n.UserProfile);
+            return View(newsAndPhotos.ToList());
         }
 
         // GET: NewsPhotoItems/Details/5
@@ -38,6 +39,7 @@ namespace MyFamilyConnect.Controllers
         // GET: NewsPhotoItems/Create
         public ActionResult Create()
         {
+            ViewBag.UserProfileId = new SelectList(db.UserProfiles, "UserProfileId", "FirstName");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace MyFamilyConnect.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NewsPhotoItemId,Title,Text,HasPhoto,Photo,UserProfileId,TimeStamp")] NewsPhotoItem newsPhotoItem)
+        public ActionResult Create([Bind(Include = "NewsPhotoItemId,Title,Text,HasPhoto,Photo,TimeStamp,UserProfileId")] NewsPhotoItem newsPhotoItem)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace MyFamilyConnect.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.UserProfileId = new SelectList(db.UserProfiles, "UserProfileId", "FirstName", newsPhotoItem.UserProfileId);
             return View(newsPhotoItem);
         }
 
@@ -70,6 +73,7 @@ namespace MyFamilyConnect.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.UserProfileId = new SelectList(db.UserProfiles, "UserProfileId", "FirstName", newsPhotoItem.UserProfileId);
             return View(newsPhotoItem);
         }
 
@@ -78,15 +82,15 @@ namespace MyFamilyConnect.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NewsPhotoItemId,Title,Text,HasPhoto,Photo,UserProfileId,TimeStamp")] NewsPhotoItem newsPhotoItem)
+        public ActionResult Edit([Bind(Include = "NewsPhotoItemId,Title,Text,HasPhoto,Photo,TimeStamp,UserProfileId")] NewsPhotoItem newsPhotoItem)
         {
             if (ModelState.IsValid)
             {
-                // IF THIS LINE MESSES UP SOMETHING, DELETE "System.Data.Entity." BELOW TO REVERT BACK TO THE ORIGINAL "EntityState.Modified"
                 db.Entry(newsPhotoItem).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.UserProfileId = new SelectList(db.UserProfiles, "UserProfileId", "FirstName", newsPhotoItem.UserProfileId);
             return View(newsPhotoItem);
         }
 
