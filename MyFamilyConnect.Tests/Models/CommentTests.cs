@@ -26,12 +26,12 @@ namespace MyFamilyConnect.Tests.Models
             // Act
             Comment comment = new Comment()
             {
-                CommentId = 1, Text = "this is my comment", UserProfileId = 1, TimeStamp = time
+                CommentId = 1, Text = "this is my comment", TimeStamp = time
             };
             // Assert
             Assert.AreEqual(1, comment.CommentId);
             Assert.AreEqual("this is my comment", comment.Text);
-            Assert.AreEqual(1, comment.UserProfileId);
+            //Assert.AreEqual(1, comment.UserProfileId);
             Assert.AreEqual(time, comment.TimeStamp);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,8 +8,10 @@ using System.Threading.Tasks;
 namespace MyFamilyConnect.Models
 {
     public class UserProfile
-    {        
-        public int UserProfileId { get; set; }        
+    {
+        [Key]
+        public int UserProfileId { get; set; }
+        public ApplicationUser Owner { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? Birthdate { get; set; }

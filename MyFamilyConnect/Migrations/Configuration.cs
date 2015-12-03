@@ -9,8 +9,7 @@ namespace MyFamilyConnect.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "MyFamilyConnect.Models.DataContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(MyFamilyConnect.Models.DataContext context)

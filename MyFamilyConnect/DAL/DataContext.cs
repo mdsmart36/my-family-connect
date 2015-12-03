@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyFamilyConnect.Models
 {
-    public class DataContext : DbContext
+    public class DataContext : ApplicationDbContext
     {
         public virtual DbSet<NewsPhotoItem> NewsAndPhotos { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }

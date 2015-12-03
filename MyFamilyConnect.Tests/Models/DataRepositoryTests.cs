@@ -110,7 +110,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text"
             };
             NewsPhotoItem news_item2 = new NewsPhotoItem()
@@ -119,7 +119,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text"
             };
 
@@ -149,7 +149,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 1,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text 1"
             };
             NewsPhotoItem news_item2 = new NewsPhotoItem()
@@ -158,7 +158,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text 2"
             };
 
@@ -192,6 +192,7 @@ namespace MyFamilyConnect.Tests.Models
         public void DataRepoCanGetNewsPhotoItemForUser()
         {
             // Arrange
+            UserProfile user = new UserProfile { UserProfileId = 1 };
             DataRepository data_repo = new DataRepository(mock_context.Object);
             NewsPhotoItem news_item1 = new NewsPhotoItem()
             {
@@ -199,7 +200,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 1,
-                UserProfileId = 1,
+                UserProfile = user,
                 Text = "news text 1"
             };
             NewsPhotoItem news_item2 = new NewsPhotoItem()
@@ -208,7 +209,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 2,
-                UserProfileId = 2,
+                UserProfile = user,
                 Text = "news text 2"
             };
 
@@ -217,8 +218,8 @@ namespace MyFamilyConnect.Tests.Models
             // Act
             data_repo.AddNewsPhotoItem(news_item1);
             data_repo.AddNewsPhotoItem(news_item2);
-            int expected = 1;
-            int actual = data_repo.GetNewsPhotosForUser(news_item2.UserProfileId).Count;
+            int expected = 2;
+            int actual = data_repo.GetNewsPhotosForUser(news_item2.UserProfile.UserProfileId).Count;
 
             // Assert
             Assert.AreEqual(expected, actual);
@@ -228,6 +229,7 @@ namespace MyFamilyConnect.Tests.Models
         public void DataRepoCanUpdateNewsPhotoItemTitle()
         {
             // Arrange
+            UserProfile user = new UserProfile { UserProfileId = 1 };            
             DataRepository data_repo = new DataRepository(mock_context.Object);
             NewsPhotoItem news_item1 = new NewsPhotoItem()
             {
@@ -235,7 +237,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 1,
-                UserProfileId = 1,
+                UserProfile = user,
                 Text = "news text 1"
             };
             ConnectNewsMocksToDataSource();
@@ -243,7 +245,7 @@ namespace MyFamilyConnect.Tests.Models
 
             // Act
             string expected = "new title";
-            var actual = data_repo.UpdateNewsPhotoTitle(news_item1.UserProfileId, news_item1.Title, expected);
+            var actual = data_repo.UpdateNewsPhotoTitle(news_item1.UserProfile.UserProfileId, news_item1.Title, expected);
 
             // Assert
             Assert.IsTrue(actual);
@@ -259,7 +261,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text"
             };
             NewsPhotoItem news_item2 = new NewsPhotoItem()
@@ -268,7 +270,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = null,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text"
             };
 
@@ -368,8 +370,8 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
             ConnectCommentMocksToDataSource();
 
             // Act
@@ -387,8 +389,8 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
             ConnectCommentMocksToDataSource();
 
             // Act
@@ -406,8 +408,8 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
             ConnectCommentMocksToDataSource();
 
             // Act
@@ -432,8 +434,8 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
             ConnectCommentMocksToDataSource();
 
             // Act
@@ -453,8 +455,8 @@ namespace MyFamilyConnect.Tests.Models
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);            
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
             List<Comment> commentList = new List<Comment>();
             commentList.Add(comment1);
             commentList.Add(comment2);
@@ -464,7 +466,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = commentList,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text"
             };
             ConnectNewsMocksToDataSource();
@@ -480,8 +482,8 @@ namespace MyFamilyConnect.Tests.Models
         public void DataRepoUpdateGenericNewsProperty()
         {
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", UserProfileId = 1 };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", UserProfileId = 1 };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
             List<Comment> commentList = new List<Comment>();
             commentList.Add(comment1);
             commentList.Add(comment2);
@@ -491,7 +493,7 @@ namespace MyFamilyConnect.Tests.Models
                 HasPhoto = false,
                 Comments = commentList,
                 NewsPhotoItemId = 2,
-                UserProfileId = 1,
+                //UserProfileId = 1,
                 Text = "news text"
             };
             ConnectNewsMocksToDataSource();

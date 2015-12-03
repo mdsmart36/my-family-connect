@@ -181,17 +181,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\NewsPhotoItemsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201512021817508_InitialCreate.cs" />
     <Compile Include="Migrations\201512021817508_InitialCreate.Designer.cs">
       <DependentUpon>201512021817508_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512022253347_Migration1.cs" />
-    <Compile Include="Migrations\201512022253347_Migration1.Designer.cs">
-      <DependentUpon>201512022253347_Migration1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -267,11 +262,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavPartial1.cshtml" />
-    <Content Include="Views\NewsPhotoItems\Create.cshtml" />
-    <Content Include="Views\NewsPhotoItems\Delete.cshtml" />
-    <Content Include="Views\NewsPhotoItems\Details.cshtml" />
-    <Content Include="Views\NewsPhotoItems\Edit.cshtml" />
-    <Content Include="Views\NewsPhotoItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -287,9 +277,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512021817508_InitialCreate.resx">
       <DependentUpon>201512021817508_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512022253347_Migration1.resx">
-      <DependentUpon>201512022253347_Migration1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

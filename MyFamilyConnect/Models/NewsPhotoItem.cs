@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 //using System.Drawing;
 //using System.Linq;
 //using System.Text;
@@ -10,6 +11,7 @@ namespace MyFamilyConnect.Models
     public class NewsPhotoItem
     {
         // Primary key
+        [Key]
         public int NewsPhotoItemId { get; set; }
 
         public string Title { get; set; }
@@ -19,7 +21,7 @@ namespace MyFamilyConnect.Models
         public DateTime TimeStamp { get; set; }
 
         // Foreign key        
-        public int UserProfileId { get; set; }
+        //public int UserProfileId { get; set; }
         
         // Navigation properties
         public virtual ICollection<Comment> Comments { get; set; }

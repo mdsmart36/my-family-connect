@@ -87,11 +87,11 @@ namespace MyFamilyConnect.Models
             }
         }
 
-        public List<NewsPhotoItem> GetNewsPhotosForUser(int? userProfileId)
+        public List<NewsPhotoItem> GetNewsPhotosForUser(int userProfileId)
         {
             try
             {
-                var query = from l in context.NewsAndPhotos where l.UserProfileId == userProfileId select l;
+                var query = from l in context.NewsAndPhotos where l.UserProfile.UserProfileId == userProfileId select l;
                 return query.ToList();
             }
             catch (Exception)
@@ -113,12 +113,12 @@ namespace MyFamilyConnect.Models
             }
         }
 
-        public bool UpdateNewsPhotoTitle(int? userProfileId, string oldTitle, string newTitle)
+        public bool UpdateNewsPhotoTitle(int userProfileId, string oldTitle, string newTitle)
         {
             var success = true;
             try
             {
-                var query = context.NewsAndPhotos.Where(n => n.UserProfileId == userProfileId).Where(n => n.Title == oldTitle);
+                var query = context.NewsAndPhotos.Where(n => n.UserProfile.UserProfileId == userProfileId).Where(n => n.Title == oldTitle);
                 var result = query.First();
                 result.Title = newTitle;
                 context.SaveChanges();
