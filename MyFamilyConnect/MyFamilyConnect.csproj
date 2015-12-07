@@ -181,6 +181,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsPhotoItemsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -262,6 +263,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavPartial1.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Create.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Delete.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Details.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Edit.cshtml" />
+    <Content Include="Views\NewsPhotoItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
