@@ -17,15 +17,18 @@ namespace MyFamilyConnect.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private DataRepository repository;        
 
         public AccountController()
         {
+            repository = new DataRepository();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            repository = new DataRepository();
         }
 
         public ApplicationSignInManager SignInManager
@@ -79,6 +82,13 @@ namespace MyFamilyConnect.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    string user_id = User.Identity.GetUserId();
+                    ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
+                    if (repository.GetUserProfile(me) == null)
+                    {
+                        // if there is no user profile, create it
+                        repository.AddUserProfile(new UserProfile { Owner = me });
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

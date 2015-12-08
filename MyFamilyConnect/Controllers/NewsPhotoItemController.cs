@@ -25,13 +25,23 @@ namespace MyFamilyConnect.Controllers
         }
 
         // GET: NewsPhotoItem
+        [Authorize]
         public ActionResult Index()
-        {
+        {                     
+            //string user_id = User.Identity.GetUserId();
+            //ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
+            //if (repository.GetUserProfile(me) == null)
+            //{                
+            //    // if there is no user profile, create it
+            //    repository.AddUserProfile(new UserProfile { Owner = me });
+            //}
+
             List<NewsPhotoItem> news_items = repository.GetAllNewsPhotoItems();
             return View(news_items);
         }
 
         // GET: NewsPhotoItem/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             NewsPhotoItem item_to_show = repository.GetNewsPhotoItem(id);
@@ -39,17 +49,22 @@ namespace MyFamilyConnect.Controllers
         }
 
         // GET: NewsPhotoItem/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: NewsPhotoItem/Create
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult Create(FormCollection form)
-        {            
+        {
+
             try
-            {                
+            {
+                string user_id = User.Identity.GetUserId();
+                ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
+                UserProfile profile = repository.GetUserProfile(me);
                 string news_title = form.Get("news-title");
                 string news_text = form.Get("news-text");
                 bool news_has_photo = Convert.ToBoolean(form.Get("news-has-photo").Split(',')[0]);
@@ -60,6 +75,7 @@ namespace MyFamilyConnect.Controllers
                     Text = news_text,
                     HasPhoto = news_has_photo,
                     Photo = news_image,
+                    UserProfile = profile,
                     Comments = null
                 };
 
@@ -73,6 +89,7 @@ namespace MyFamilyConnect.Controllers
         }
 
         // GET: NewsPhotoItem/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             NewsPhotoItem item_to_edit = repository.GetNewsPhotoItem(id);
@@ -80,7 +97,7 @@ namespace MyFamilyConnect.Controllers
         }
 
         // POST: NewsPhotoItem/Edit/5
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult Edit(int id, FormCollection form)
         {
             try
@@ -100,6 +117,7 @@ namespace MyFamilyConnect.Controllers
         }
 
         // GET: NewsPhotoItem/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             NewsPhotoItem item_to_delete = repository.GetNewsPhotoItem(id);
@@ -107,7 +125,7 @@ namespace MyFamilyConnect.Controllers
         }
 
         // POST: NewsPhotoItem/Delete/5
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try

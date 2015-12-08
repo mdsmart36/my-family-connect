@@ -10,6 +10,7 @@ namespace MyFamilyConnect.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.ProfileID = 1;
             return View();
         }
 

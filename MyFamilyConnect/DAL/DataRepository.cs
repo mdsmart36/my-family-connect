@@ -212,6 +212,19 @@ namespace MyFamilyConnect.Models
             }
         }
 
+        public UserProfile GetUserProfile(ApplicationUser owner)
+        {
+            try
+            {
+                var query = from p in context.UserProfiles where p.Owner.Id == owner.Id select p;
+                return query.First();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public bool UpdateUserProfile(int UserProfileId, string newName)
         {
             var success = true;
