@@ -13,12 +13,12 @@ namespace MyFamilyConnect.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201512021817508_InitialCreate"; }
+            get { return "201512071628569_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

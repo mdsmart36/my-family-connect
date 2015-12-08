@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Data.Entity;
 
 namespace MyFamilyConnect.Models
 {
     public class DataRepository
     {
         private DataContext context;
+        public IDbSet<ApplicationUser> Users { get { return context.Users; } }
+
+        public DataRepository()
+        {
+            context = new DataContext();
+        }
+
         public DataRepository(DataContext _context)
         {
             context = _context;
@@ -31,6 +39,7 @@ namespace MyFamilyConnect.Models
             bool result = true;
             try
             {
+                news_item.TimeStamp = DateTime.Now;
                 context.NewsAndPhotos.Add(news_item);
                 context.SaveChanges();                
             }
@@ -86,12 +95,25 @@ namespace MyFamilyConnect.Models
             
         }
 
-        public bool DeleteNewsPhotoItem(NewsPhotoItem news_item1)
+        public bool UpdateNewsPhotoItem(NewsPhotoItem item_to_update)
+        {
+            context.Entry(item_to_update).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool SaveAllChanges()
+        {
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteNewsPhotoItem(int newsPhotoId)
         {
             var result = true;
             try
             {
-                var query = context.NewsAndPhotos.Where(n => n == news_item1);
+                var query = context.NewsAndPhotos.Where(n => n.NewsPhotoItemId == newsPhotoId);
                 var itemToDelete = query.First();
                 context.NewsAndPhotos.Remove(itemToDelete);
                 context.SaveChanges();

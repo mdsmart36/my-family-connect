@@ -279,7 +279,7 @@ namespace MyFamilyConnect.Tests.Models
             // Act                        
             data_repo.AddNewsPhotoItem(news_item1);
             data_repo.AddNewsPhotoItem(news_item2);
-            bool success = data_repo.DeleteNewsPhotoItem(news_item1);
+            bool success = data_repo.DeleteNewsPhotoItem(news_item1.NewsPhotoItemId);
 
             // Assert
             Assert.IsTrue(success);
