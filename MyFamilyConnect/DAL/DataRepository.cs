@@ -230,7 +230,7 @@ namespace MyFamilyConnect.Models
         {
             string user_id = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var query = context.Users.Where(u => u.Id == user_id);
-            var me = query.FirstOrDefault();
+            ApplicationUser me = query.FirstOrDefault();
             return me;
         }
 

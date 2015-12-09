@@ -22,3 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.news-photo {
+    max-width: 25%;
+    max-height: 25%
+}

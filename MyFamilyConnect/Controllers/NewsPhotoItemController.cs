@@ -7,6 +7,8 @@ using MyFamilyConnect.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.IO;
+using System.Drawing;
 
 namespace MyFamilyConnect.Controllers
 {
@@ -28,18 +30,21 @@ namespace MyFamilyConnect.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            int profile_id = repository.GetCurrentUserProfile().UserProfileId;
-            List<NewsPhotoItem> my_news_items = repository.GetNewsPhotosForUser(profile_id);
-            //List<NewsPhotoItem> news_items = repository.GetAllNewsPhotoItems();
+            // Get all the news and photos associated with the current user
             ViewBag.Title = "My News and Photos";
+            int profile_id = repository.GetCurrentUserProfile().UserProfileId;
+            List<NewsPhotoItem> my_news_items = repository.GetNewsPhotosForUser(profile_id);                        
             return View(my_news_items);
         }
 
         // GET: NewsPhotoItem/Details/5
         [Authorize]
         public ActionResult Details(int id)
-        {
+        {            
             NewsPhotoItem item_to_show = repository.GetNewsPhotoItem(id);
+            //MemoryStream ms = new MemoryStream(item_to_show.Photo);
+            //Image returnImage = Image.FromStream(ms);
+            //ViewBag.Photo = returnImage;
             return View(item_to_show);
         }
 
@@ -52,28 +57,47 @@ namespace MyFamilyConnect.Controllers
 
         // POST: NewsPhotoItem/Create
         [HttpPost, Authorize]
-        public ActionResult Create(FormCollection form)
+        //public ActionResult Create(FormCollection form)
+        public ActionResult Create(NewsPhotoItem item_to_add, HttpPostedFileBase upload, FormCollection form)
         {
 
             try
             {
-                //string user_id = User.Identity.GetUserId();
-                //ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
-                //UserProfile profile = repository.GetUserProfile(me);
                 UserProfile profile = repository.GetCurrentUserProfile();
-                string news_title = form.Get("news-title");
-                string news_text = form.Get("news-text");
-                bool news_has_photo = Convert.ToBoolean(form.Get("news-has-photo").Split(',')[0]);
-                byte[] news_image = null;
-                NewsPhotoItem item_to_add = new NewsPhotoItem
+                item_to_add.Title = form.Get("news-title");
+                item_to_add.Text = form.Get("news-text");
+                //bool news_has_photo = Convert.ToBoolean(form.Get("news-has-photo").Split(',')[0]);
+
+                item_to_add.HasPhoto = false;
+                item_to_add.UserProfile = profile;
+                item_to_add.Comments = null;
+                //byte[] news_image = null;
+
+                if (upload != null && upload.ContentLength > 0)
                 {
-                    Title = news_title,
-                    Text = news_text,
-                    HasPhoto = news_has_photo,
-                    Photo = news_image,
-                    UserProfile = profile,
-                    Comments = null
-                };
+                    //var photo = new File
+                    //{
+                    //    FileName = System.IO.Path.GetFileName(upload.FileName),
+                    //    FileType = FileType.Avatar,
+                    //    ContentType = upload.ContentType
+                    //};
+                    item_to_add.HasPhoto = true;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        item_to_add.Photo = reader.ReadBytes(upload.ContentLength);
+                    }
+                    
+                }
+
+                //item_to_add
+                //{
+                //    Title = news_title,
+                //    Text = news_text,
+                //    HasPhoto = news_has_photo,
+                //    Photo = news_image,
+                //    UserProfile = profile,
+                //    Comments = null
+                //};
 
                 repository.AddNewsPhotoItem(item_to_add);
                 return RedirectToAction("Index");
