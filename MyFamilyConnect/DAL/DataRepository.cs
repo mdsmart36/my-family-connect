@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace MyFamilyConnect.Models
 {
@@ -223,6 +224,20 @@ namespace MyFamilyConnect.Models
             {
                 return null;
             }
+        }
+
+        public ApplicationUser GetCurrentApplicationUser()
+        {
+            string user_id = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var query = context.Users.Where(u => u.Id == user_id);
+            var me = query.FirstOrDefault();
+            return me;
+        }
+
+        public UserProfile GetCurrentUserProfile()
+        {
+            var me = GetCurrentApplicationUser();
+            return GetUserProfile(me);
         }
 
         public bool UpdateUserProfile(int UserProfileId, string newName)

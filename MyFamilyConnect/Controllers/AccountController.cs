@@ -82,13 +82,7 @@ namespace MyFamilyConnect.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    string user_id = User.Identity.GetUserId();
-                    ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
-                    if (repository.GetUserProfile(me) == null)
-                    {
-                        // if there is no user profile, create it
-                        repository.AddUserProfile(new UserProfile { Owner = me });
-                    }
+                    
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -166,12 +160,12 @@ namespace MyFamilyConnect.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");                    
 
                     return RedirectToAction("Index", "Home");
                 }

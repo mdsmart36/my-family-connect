@@ -513,5 +513,6 @@ namespace MyFamilyConnect.Tests.Models
             Assert.IsTrue(found.HasPhoto);
             Assert.AreEqual(time, found.TimeStamp);
         }
+        
     }
 }

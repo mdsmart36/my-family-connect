@@ -27,17 +27,12 @@ namespace MyFamilyConnect.Controllers
         // GET: NewsPhotoItem
         [Authorize]
         public ActionResult Index()
-        {                     
-            //string user_id = User.Identity.GetUserId();
-            //ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
-            //if (repository.GetUserProfile(me) == null)
-            //{                
-            //    // if there is no user profile, create it
-            //    repository.AddUserProfile(new UserProfile { Owner = me });
-            //}
-
-            List<NewsPhotoItem> news_items = repository.GetAllNewsPhotoItems();
-            return View(news_items);
+        {
+            int profile_id = repository.GetCurrentUserProfile().UserProfileId;
+            List<NewsPhotoItem> my_news_items = repository.GetNewsPhotosForUser(profile_id);
+            //List<NewsPhotoItem> news_items = repository.GetAllNewsPhotoItems();
+            ViewBag.Title = "My News and Photos";
+            return View(my_news_items);
         }
 
         // GET: NewsPhotoItem/Details/5
@@ -62,9 +57,10 @@ namespace MyFamilyConnect.Controllers
 
             try
             {
-                string user_id = User.Identity.GetUserId();
-                ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
-                UserProfile profile = repository.GetUserProfile(me);
+                //string user_id = User.Identity.GetUserId();
+                //ApplicationUser me = repository.Users.FirstOrDefault(u => u.Id == user_id);
+                //UserProfile profile = repository.GetUserProfile(me);
+                UserProfile profile = repository.GetCurrentUserProfile();
                 string news_title = form.Get("news-title");
                 string news_text = form.Get("news-text");
                 bool news_has_photo = Convert.ToBoolean(form.Get("news-has-photo").Split(',')[0]);
