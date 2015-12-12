@@ -1,0 +1,53 @@
+﻿@model MyFamilyConnect.Models.News
+
+@{
+    ViewBag.Title = "Details";
+
+    //var base64 = Convert.ToBase64String(Model.Photo);
+    //var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>News</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>       
+
+            @*<dt>
+                Photo
+            </dt>
+            <dd>
+                <img src="@imgSrc" alt="Photo" class="news-photo" />
+            </dd>*@               
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.NewsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

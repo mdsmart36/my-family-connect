@@ -181,7 +181,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\NewsPhotoItemController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -190,6 +190,10 @@
     <Compile Include="Migrations\201512071628569_InitialCreate.Designer.cs">
       <DependentUpon>201512071628569_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512121713106_AddPhotoModel.cs" />
+    <Compile Include="Migrations\201512121713106_AddPhotoModel.Designer.cs">
+      <DependentUpon>201512121713106_AddPhotoModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -197,7 +201,8 @@
     <Compile Include="DAL\DataRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\NewsPhotoItem.cs" />
+    <Compile Include="Models\News.cs" />
+    <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -264,11 +269,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavPartial1.cshtml" />
-    <Content Include="Views\NewsPhotoItem\Create.cshtml" />
-    <Content Include="Views\NewsPhotoItem\Delete.cshtml" />
-    <Content Include="Views\NewsPhotoItem\Details.cshtml" />
-    <Content Include="Views\NewsPhotoItem\Edit.cshtml" />
-    <Content Include="Views\NewsPhotoItem\Index.cshtml" />
+    <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Delete.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\UserProfiles\Create.cshtml" />
     <Content Include="Views\UserProfiles\Delete.cshtml" />
     <Content Include="Views\UserProfiles\Details.cshtml" />
@@ -289,6 +294,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512071628569_InitialCreate.resx">
       <DependentUpon>201512071628569_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512121713106_AddPhotoModel.resx">
+      <DependentUpon>201512121713106_AddPhotoModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyFamilyConnect.Models.NewsPhotoItem>
+﻿@model IEnumerable<MyFamilyConnect.Models.News>
 
 @{
     
@@ -17,9 +17,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Text)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.HasPhoto)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.UserProfile.FirstName)
         </th>
@@ -36,10 +33,7 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Text)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.HasPhoto)
-        </td>*@
+        </td>        
         <td>
             @Html.DisplayFor(modelItem => item.UserProfile.FirstName)
         </td>
@@ -47,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.TimeStamp)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.NewsPhotoItemId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.NewsPhotoItemId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.NewsPhotoItemId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.NewsId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.NewsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.NewsId })
         </td>
     </tr>
 }

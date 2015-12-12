@@ -13,7 +13,7 @@ namespace MyFamilyConnect.Tests.Models
         [TestMethod]
         public void NewsPhotoEnsureCanCreateInstance()
         {
-            NewsPhotoItem news = new NewsPhotoItem();
+            News news = new News();
             Assert.IsNotNull(news);
         }
 
@@ -27,16 +27,16 @@ namespace MyFamilyConnect.Tests.Models
             List<Comment> comments = new List<Comment>();
             comments.Add(comment);
             // Act
-            NewsPhotoItem news = new NewsPhotoItem()
-            { Title = "title", HasPhoto = false, Comments = comments, NewsPhotoItemId = 2, Photo = null, Text = "news text", TimeStamp = timestamp
+            News news = new News()
+            { Title = "title", Comments = comments, NewsId = 2, Text = "news text", TimeStamp = timestamp
             };
             // Assert
             Assert.AreEqual("title", news.Title);
-            Assert.AreEqual(false, news.HasPhoto);
+            //Assert.AreEqual(false, news.HasPhoto);
             Assert.AreEqual(comments, news.Comments);
-            Assert.AreEqual(2, news.NewsPhotoItemId);
+            Assert.AreEqual(2, news.NewsId);
             //Assert.AreEqual(1, news.UserProfileId);
-            Assert.AreEqual(null, news.Photo);
+            //Assert.AreEqual(null, news.Photo);
             Assert.AreEqual("news text", news.Text);
             Assert.AreEqual(timestamp, news.TimeStamp);
         }

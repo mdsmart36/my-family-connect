@@ -30,18 +30,18 @@ namespace MyFamilyConnect.Models
         *
         *****************************************/
 
-        public int GetAllNewsPhotosCount()
+        public int GetAllNewsCount()
         {            
-            return GetAllNewsPhotoItems().Count;
+            return GetAllNewsItems().Count;
         }
 
-        public bool AddNewsPhotoItem(NewsPhotoItem news_item)
+        public bool AddNewsItem(News news_item)
         {
             bool result = true;
             try
             {
                 news_item.TimeStamp = DateTime.Now;
-                context.NewsAndPhotos.Add(news_item);
+                context.News.Add(news_item);
                 context.SaveChanges();                
             }
             catch (ArgumentNullException)
@@ -51,11 +51,11 @@ namespace MyFamilyConnect.Models
             return result;
         }
 
-        public List<NewsPhotoItem> GetAllNewsPhotoItems()
+        public List<News> GetAllNewsItems()
         {
             try
             {
-                var query = from l in context.NewsAndPhotos select l;
+                var query = from l in context.News select l;
                 return query.ToList();
             }
             catch (Exception)
@@ -65,11 +65,11 @@ namespace MyFamilyConnect.Models
             }                        
         }
 
-        public List<NewsPhotoItem> GetNewsPhotosForUser(int userProfileId)
+        public List<News> GetNewsForUser(int userProfileId)
         {
             try
             {
-                var query = from l in context.NewsAndPhotos where l.UserProfile.UserProfileId == userProfileId select l;
+                var query = from l in context.News where l.UserProfile.UserProfileId == userProfileId select l;
                 return query.ToList();
             }
             catch (Exception)
@@ -78,12 +78,12 @@ namespace MyFamilyConnect.Models
             }            
         }
 
-        public bool UpdateNewsPhotoTitle(int userProfileId, string oldTitle, string newTitle)
+        public bool UpdateNewsTitle(int userProfileId, string oldTitle, string newTitle)
         {
             var success = true;
             try
             {
-                var query = context.NewsAndPhotos.Where(n => n.UserProfile.UserProfileId == userProfileId).Where(n => n.Title == oldTitle);
+                var query = context.News.Where(n => n.UserProfile.UserProfileId == userProfileId).Where(n => n.Title == oldTitle);
                 var result = query.First();
                 result.Title = newTitle;
                 context.SaveChanges();
@@ -96,7 +96,7 @@ namespace MyFamilyConnect.Models
             
         }
 
-        public bool UpdateNewsPhotoItem(NewsPhotoItem item_to_update)
+        public bool UpdateNewsItem(News item_to_update)
         {
             context.Entry(item_to_update).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
@@ -109,14 +109,14 @@ namespace MyFamilyConnect.Models
             return true;
         }
 
-        public bool DeleteNewsPhotoItem(int newsPhotoId)
+        public bool DeleteNewsItem(int newsPhotoId)
         {
             var result = true;
             try
             {
-                var query = context.NewsAndPhotos.Where(n => n.NewsPhotoItemId == newsPhotoId);
+                var query = context.News.Where(n => n.NewsId == newsPhotoId);
                 var itemToDelete = query.First();
-                context.NewsAndPhotos.Remove(itemToDelete);
+                context.News.Remove(itemToDelete);
                 context.SaveChanges();
             }
             catch (Exception)
@@ -126,12 +126,12 @@ namespace MyFamilyConnect.Models
             return result;
         }
 
-        public NewsPhotoItem GetNewsPhotoItem(int NewsPhotoItemId)
+        public News GetNewsItem(int NewsId)
         {
-            NewsPhotoItem found = new NewsPhotoItem();
+            News found = new News();
             try
             {
-                var query = context.NewsAndPhotos.Where(n => n.NewsPhotoItemId == NewsPhotoItemId);
+                var query = context.News.Where(n => n.NewsId == NewsId);
                 found = query.First();
             }
             catch (Exception)
@@ -141,15 +141,15 @@ namespace MyFamilyConnect.Models
             return found;
         }
 
-        public bool UpdateNewsProperty(int NewsPhotoItemId, string propertyName, object propertyValue)
+        public bool UpdateNewsProperty(int NewsId, string propertyName, object propertyValue)
         {
             var isSuccessful = true;
             try
             {
-                var query = context.NewsAndPhotos.Where(a => a.NewsPhotoItemId == NewsPhotoItemId);
+                var query = context.News.Where(a => a.NewsId == NewsId);
                 var found = query.First();
 
-                Type n = typeof(NewsPhotoItem);
+                Type n = typeof(News);
                 PropertyInfo propertyToUpdate = n.GetProperty(propertyName);                
                 propertyToUpdate.SetValue(found, propertyValue);
                 context.SaveChanges();
@@ -290,6 +290,7 @@ namespace MyFamilyConnect.Models
             bool result = true;
             try
             {
+                comment.TimeStamp = DateTime.Now;
                 context.Comments.Add(comment);
                 context.SaveChanges();
             }
@@ -360,5 +361,136 @@ namespace MyFamilyConnect.Models
             return result;
         }
 
+        /****************************************
+        *
+        * CRUD OPERATIONS FOR PHOTO RECORDS
+        *
+        *****************************************/
+
+        public int GetAllPhotosCount()
+        {
+            return GetAllPhotoItems().Count;
+        }
+
+        public bool AddPhotoItem(Photo photo_item)
+        {
+            bool result = true;
+            try
+            {
+                photo_item.TimeStamp = DateTime.Now;
+                context.Photos.Add(photo_item);
+                context.SaveChanges();
+            }
+            catch (ArgumentNullException)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public List<Photo> GetAllPhotoItems()
+        {
+            try
+            {
+                var query = from l in context.Photos select l;
+                return query.ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+                //throw;
+            }
+        }
+
+        public List<Photo> GetPhotosForUser(int userProfileId)
+        {
+            try
+            {
+                var query = from l in context.Photos where l.UserProfile.UserProfileId == userProfileId select l;
+                return query.ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public bool UpdatePhotoTitle(int userProfileId, string oldTitle, string newTitle)
+        {
+            var success = true;
+            try
+            {
+                var query = context.Photos.Where(n => n.UserProfile.UserProfileId == userProfileId).Where(n => n.Title == oldTitle);
+                var result = query.First();
+                result.Title = newTitle;
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                success = false;
+            }
+            return success;
+
+        }
+
+        public bool UpdatePhotoItem(Photo item_to_update)
+        {
+            context.Entry(item_to_update).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+            return true;
+        }        
+
+        public bool DeletePhotoItem(int photoId)
+        {
+            var result = true;
+            try
+            {
+                var query = context.Photos.Where(n => n.PhotoId == photoId);
+                var itemToDelete = query.First();
+                context.Photos.Remove(itemToDelete);
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public Photo GetPhotoItem(int photoId)
+        {
+            Photo found = new Photo();
+            try
+            {
+                var query = context.Photos.Where(n => n.PhotoId == photoId);
+                found = query.First();
+            }
+            catch (Exception)
+            {
+                found = null;
+            }
+            return found;
+        }
+
+        public bool UpdatePhotoProperty(int photoId, string propertyName, object propertyValue)
+        {
+            var isSuccessful = true;
+            try
+            {
+                var query = context.Photos.Where(a => a.PhotoId == photoId);
+                var found = query.First();
+
+                Type n = typeof(Photo);
+                PropertyInfo propertyToUpdate = n.GetProperty(propertyName);
+                propertyToUpdate.SetValue(found, propertyValue);
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                isSuccessful = false;
+                throw;
+            }
+            return isSuccessful;
+        }
     }
 }

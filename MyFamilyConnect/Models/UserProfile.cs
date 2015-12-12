@@ -26,7 +26,8 @@ namespace MyFamilyConnect.Models
         public string AboutMe { get; set; }
 
         // Navigation properties
-        public virtual ICollection<NewsPhotoItem> NewsPhotoItems { get; set; }
+        public virtual ICollection<News> NewsItems { get; set; }
+        public virtual ICollection<Photo> PhotoItems { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
                 
     }

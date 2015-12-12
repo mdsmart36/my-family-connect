@@ -14,14 +14,11 @@ namespace MyFamilyConnect.Models
         public string Text { get; set; }        
         public DateTime TimeStamp { get; set; }
 
-        // Foreign keys
-
-        // ARE THESE NEEDED??
-        //public int NewsPhotoItemId { get; set; }
-        //public int? UserProfileId { get; set; }
+        // Foreign keys        
 
         // Navigation properties
-        public virtual NewsPhotoItem NewsPhotoItem { get; set; }
+        public virtual News NewsItem { get; set; }
+        public virtual Photo PhotoItem { get; set; }
         public virtual UserProfile UserProfile { get; set; }        
     }
 }

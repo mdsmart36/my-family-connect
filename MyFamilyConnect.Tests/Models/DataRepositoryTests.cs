@@ -12,29 +12,45 @@ namespace MyFamilyConnect.Tests.Models
     public class DataRepositoryTests
     {
         private Mock<DataContext> mock_context;
-        private Mock<DbSet<NewsPhotoItem>> mock_NewsPhotos;
+        private Mock<DbSet<News>> mock_News;
+        private Mock<DbSet<Photo>> mock_Photos;
         private Mock<DbSet<UserProfile>> mock_UserProfiles;
         private Mock<DbSet<Comment>> mock_Comments;
-        private List<NewsPhotoItem> news_list;
+
+        private List<News> news_list;
+        private List<Photo> photo_list;
         private List<UserProfile> profile_list;
         private List<Comment> comment_list;
-        //private ApplicationUser user1, user2, user3;
+        
 
         private void ConnectNewsMocksToDataSource()
         {
             // This setups the Mocks and connects to the Data Source (news_list in this case)
             var data = news_list.AsQueryable();
 
-            mock_NewsPhotos.As<IQueryable<NewsPhotoItem>>().Setup(m => m.Provider).Returns(data.Provider);
-            mock_NewsPhotos.As<IQueryable<NewsPhotoItem>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mock_NewsPhotos.As<IQueryable<NewsPhotoItem>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mock_NewsPhotos.As<IQueryable<NewsPhotoItem>>().Setup(m => m.Expression).Returns(data.Expression);
+            mock_News.As<IQueryable<News>>().Setup(m => m.Provider).Returns(data.Provider);
+            mock_News.As<IQueryable<News>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mock_News.As<IQueryable<News>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mock_News.As<IQueryable<News>>().Setup(m => m.Expression).Returns(data.Expression);
 
-            mock_context.Setup(m => m.NewsAndPhotos).Returns(mock_NewsPhotos.Object);
-            // This allows BoardRepository to call Boards.Add and have it update the news_list instance and Enumerator
-            // Connect DbSet.Add to List.Add so they work together
-            mock_NewsPhotos.Setup(m => m.Add(It.IsAny<NewsPhotoItem>())).Callback((NewsPhotoItem b) => news_list.Add(b));
-            mock_NewsPhotos.Setup(m => m.Remove(It.IsAny<NewsPhotoItem>())).Callback((NewsPhotoItem b) => news_list.Remove(b));
+            mock_context.Setup(m => m.News).Returns(mock_News.Object);            
+            mock_News.Setup(m => m.Add(It.IsAny<News>())).Callback((News b) => news_list.Add(b));
+            mock_News.Setup(m => m.Remove(It.IsAny<News>())).Callback((News b) => news_list.Remove(b));
+        }
+
+        private void ConnectPhotoMocksToDataSource()
+        {
+            // This setups the Mocks and connects to the Data Source (news_list in this case)
+            var data = photo_list.AsQueryable();
+
+            mock_Photos.As<IQueryable<Photo>>().Setup(m => m.Provider).Returns(data.Provider);
+            mock_Photos.As<IQueryable<Photo>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mock_Photos.As<IQueryable<Photo>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mock_Photos.As<IQueryable<Photo>>().Setup(m => m.Expression).Returns(data.Expression);
+
+            mock_context.Setup(m => m.Photos).Returns(mock_Photos.Object);            
+            mock_Photos.Setup(m => m.Add(It.IsAny<Photo>())).Callback((Photo b) => photo_list.Add(b));
+            mock_Photos.Setup(m => m.Remove(It.IsAny<Photo>())).Callback((Photo b) => photo_list.Remove(b));
         }
 
         private void ConnectProfileMocksToDataSource()
@@ -71,23 +87,28 @@ namespace MyFamilyConnect.Tests.Models
         public void Initialize()
         {
             mock_context = new Mock<DataContext>();
-            mock_NewsPhotos = new Mock<DbSet<NewsPhotoItem>>();
+            mock_News = new Mock<DbSet<News>>();
             mock_UserProfiles = new Mock<DbSet<UserProfile>>();
             mock_Comments = new Mock<DbSet<Comment>>();
-            news_list = new List<NewsPhotoItem>();
+            mock_Photos = new Mock<DbSet<Photo>>();
+
+            news_list = new List<News>();
+            photo_list = new List<Photo>();
             profile_list = new List<UserProfile>();
             comment_list = new List<Comment>();
-            //user1 = new ApplicationUser();
-            //user2 = new ApplicationUser();
-            //user3 = new ApplicationUser();
         }
 
         [TestCleanup]
         public void Cleanup()
         {
             mock_context = null;
-            mock_NewsPhotos = null;
+            mock_News = null;
+            mock_UserProfiles = null;
+            mock_Comments = null;
+            mock_Photos = null;
+
             news_list = null;
+            photo_list = null;
             profile_list = null;
             comment_list = null;
         }
@@ -99,65 +120,65 @@ namespace MyFamilyConnect.Tests.Models
             Assert.IsNotNull(data_repo);
         }
 
+        // *******************************
+        // TESTS FOR NEWS RECORDS
+        // *******************************
+
         [TestMethod]
         public void DataRepoCanCreateNewsPhotoItem()
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            News news_item1 = new News()
             {
                 Title = "title",
-                HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 2,
-                //UserProfileId = 1,
+                NewsId = 2,                
                 Text = "news text"
             };
-            NewsPhotoItem news_item2 = new NewsPhotoItem()
+            News news_item2 = new News()
             {
                 Title = "title",
-                HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 2,
-                //UserProfileId = 1,
+                NewsId = 2,
                 Text = "news text"
             };
 
             ConnectNewsMocksToDataSource();
 
             // Act                        
-            bool actual = data_repo.AddNewsPhotoItem(news_item1);
+            bool actual = data_repo.AddNewsItem(news_item1);
             // Assert
-            Assert.AreEqual(1, data_repo.GetAllNewsPhotosCount());
+            Assert.AreEqual(1, data_repo.GetAllNewsCount());
             Assert.IsTrue(actual);
             // Act
             actual = false;            
-            actual = data_repo.AddNewsPhotoItem(news_item2);
+            actual = data_repo.AddNewsItem(news_item2);
             // Assert
-            Assert.AreEqual(2, data_repo.GetAllNewsPhotosCount());
+            Assert.AreEqual(2, data_repo.GetAllNewsCount());
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void DataRepoCanGetAllNewsPhotoItems()
+        public void DataRepoCanGetAllNewsItems()
         {
             // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            News news_item1 = new News()
             {
                 Title = "title 1",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 1,
+                NewsId = 1,
                 //UserProfileId = 1,
                 Text = "news text 1"
             };
-            NewsPhotoItem news_item2 = new NewsPhotoItem()
+            News news_item2 = new News()
             {
                 Title = "title 2",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 2,
+                NewsId = 2,
                 //UserProfileId = 1,
                 Text = "news text 2"
             };
@@ -165,10 +186,10 @@ namespace MyFamilyConnect.Tests.Models
             ConnectNewsMocksToDataSource();
 
             // Act           
-            data_repo.AddNewsPhotoItem(news_item1);
-            data_repo.AddNewsPhotoItem(news_item2);
+            data_repo.AddNewsItem(news_item1);
+            data_repo.AddNewsItem(news_item2);
             int expected = 2;
-            int actual = data_repo.GetAllNewsPhotoItems().Count();
+            int actual = data_repo.GetAllNewsItems().Count();
 
             // Assert
             Assert.AreEqual(expected, actual);
@@ -183,32 +204,32 @@ namespace MyFamilyConnect.Tests.Models
 
             // Act
             int expected = 0;
-            int actual = data_repo.GetAllNewsPhotosCount();
+            int actual = data_repo.GetAllNewsCount();
             // Assert
             Assert.AreEqual(expected, actual);
         }       
 
         [TestMethod]
-        public void DataRepoCanGetNewsPhotoItemForUser()
+        public void DataRepoCanGetNewsItemForUser()
         {
             // Arrange
             UserProfile user = new UserProfile { UserProfileId = 1 };
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            News news_item1 = new News()
             {
                 Title = "title 1",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 1,
+                NewsId = 1,
                 UserProfile = user,
                 Text = "news text 1"
             };
-            NewsPhotoItem news_item2 = new NewsPhotoItem()
+            News news_item2 = new News()
             {
                 Title = "title 2",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 2,
+                NewsId = 2,
                 UserProfile = user,
                 Text = "news text 2"
             };
@@ -216,60 +237,60 @@ namespace MyFamilyConnect.Tests.Models
             ConnectNewsMocksToDataSource();
 
             // Act
-            data_repo.AddNewsPhotoItem(news_item1);
-            data_repo.AddNewsPhotoItem(news_item2);
+            data_repo.AddNewsItem(news_item1);
+            data_repo.AddNewsItem(news_item2);
             int expected = 2;
-            int actual = data_repo.GetNewsPhotosForUser(news_item2.UserProfile.UserProfileId).Count;
+            int actual = data_repo.GetNewsForUser(news_item2.UserProfile.UserProfileId).Count;
 
             // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void DataRepoCanUpdateNewsPhotoItemTitle()
+        public void DataRepoCanUpdateNewsItemTitle()
         {
             // Arrange
             UserProfile user = new UserProfile { UserProfileId = 1 };            
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            News news_item1 = new News()
             {
                 Title = "title 1",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 1,
+                NewsId = 1,
                 UserProfile = user,
                 Text = "news text 1"
             };
             ConnectNewsMocksToDataSource();
-            data_repo.AddNewsPhotoItem(news_item1);
+            data_repo.AddNewsItem(news_item1);
 
             // Act
             string expected = "new title";
-            var actual = data_repo.UpdateNewsPhotoTitle(news_item1.UserProfile.UserProfileId, news_item1.Title, expected);
+            var actual = data_repo.UpdateNewsTitle(news_item1.UserProfile.UserProfileId, news_item1.Title, expected);
 
             // Assert
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void DataRepoCanDeleteNewsPhotoItem()
+        public void DataRepoCanDeleteNewsItem()
         {
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            News news_item1 = new News()
             {
                 Title = "title",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 2,
+                NewsId = 2,
                 //UserProfileId = 1,
                 Text = "news text"
             };
-            NewsPhotoItem news_item2 = new NewsPhotoItem()
+            News news_item2 = new News()
             {
                 Title = "title",
-                HasPhoto = false,
+                //HasPhoto = false,
                 Comments = null,
-                NewsPhotoItemId = 2,
+                NewsId = 2,
                 //UserProfileId = 1,
                 Text = "news text"
             };
@@ -277,14 +298,83 @@ namespace MyFamilyConnect.Tests.Models
             ConnectNewsMocksToDataSource();
 
             // Act                        
-            data_repo.AddNewsPhotoItem(news_item1);
-            data_repo.AddNewsPhotoItem(news_item2);
-            bool success = data_repo.DeleteNewsPhotoItem(news_item1.NewsPhotoItemId);
+            data_repo.AddNewsItem(news_item1);
+            data_repo.AddNewsItem(news_item2);
+            bool success = data_repo.DeleteNewsItem(news_item1.NewsId);
 
             // Assert
             Assert.IsTrue(success);
-            Assert.AreEqual(1, data_repo.GetAllNewsPhotosCount());
+            Assert.AreEqual(1, data_repo.GetAllNewsCount());
         }
+
+        [TestMethod]
+        public void DataRepoGetNewsItem()
+        {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
+            List<Comment> commentList = new List<Comment>();
+            commentList.Add(comment1);
+            commentList.Add(comment2);
+            News news_item1 = new News()
+            {
+                Title = "title",
+                //HasPhoto = false,
+                Comments = commentList,
+                NewsId = 2,
+                //UserProfileId = 1,
+                Text = "news text"
+            };
+            ConnectNewsMocksToDataSource();
+
+            // Act
+            data_repo.AddNewsItem(news_item1);
+            News found = data_repo.GetNewsItem(news_item1.NewsId);
+            // Assert
+            Assert.AreEqual(2, found.Comments.Count);
+        }
+
+        [TestMethod]
+        public void DataRepoUpdateGenericNewsProperty()
+        {
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
+            List<Comment> commentList = new List<Comment>();
+            commentList.Add(comment1);
+            commentList.Add(comment2);
+            News news_item1 = new News()
+            {
+                Title = "title",
+                //HasPhoto = false,
+                Comments = commentList,
+                NewsId = 2,
+                //UserProfileId = 1,
+                Text = "news text"
+            };
+            ConnectNewsMocksToDataSource();
+
+            // Act
+            var expected = "This method works";
+            int id = news_item1.NewsId;
+            DateTime time = new DateTime();
+            data_repo.AddNewsItem(news_item1);
+            data_repo.UpdateNewsProperty(id, "Title", "This method works");
+            //data_repo.UpdateNewsProperty(id, "HasPhoto", true);
+            data_repo.UpdateNewsProperty(id, "TimeStamp", time);
+            var found = data_repo.GetNewsItem(news_item1.NewsId);
+
+            // Assert            
+            Assert.AreEqual(expected, found.Title);
+            //Assert.IsTrue(found.HasPhoto);
+            Assert.AreEqual(time, found.TimeStamp);
+        }
+
+
+        // *******************************
+        // TESTS FOR USER PROFILE RECORDS
+        // *******************************
 
         [TestMethod]
         public void DataRepoCreateUserProfile()
@@ -364,6 +454,10 @@ namespace MyFamilyConnect.Tests.Models
             Assert.IsTrue(success); // successfully deleted a profile
             Assert.AreEqual(1, data_repo.GetAllUserProfiles().Count); // only 1 profile left
         }
+
+        // *******************************
+        // TESTS FOR COMMENT RECORDS
+        // *******************************
 
         [TestMethod]
         public void DataRepoCreateComment()
@@ -450,69 +544,101 @@ namespace MyFamilyConnect.Tests.Models
             Assert.IsTrue(success);
         }
 
+        // *******************************
+        // TESTS FOR PHOTO RECORDS
+        // *******************************
+
         [TestMethod]
-        public void DataRepoGetNewsPhotoItem()
+        public void DataRepoCreatePhotoItem()
         {
             // Arrange
-            DataRepository data_repo = new DataRepository(mock_context.Object);            
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
-            List<Comment> commentList = new List<Comment>();
-            commentList.Add(comment1);
-            commentList.Add(comment2);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Photo photo1 = new Photo()
             {
-                Title = "title",
-                HasPhoto = false,
-                Comments = commentList,
-                NewsPhotoItemId = 2,
-                //UserProfileId = 1,
-                Text = "news text"
+                PhotoId = 1,
+                Title = "my photo",
+                Text = "a picture of me",
+                TimeStamp = DateTime.Now,
+                Comments = null
             };
-            ConnectNewsMocksToDataSource();
-
+            ConnectPhotoMocksToDataSource();
             // Act
-            data_repo.AddNewsPhotoItem(news_item1);
-            NewsPhotoItem found = data_repo.GetNewsPhotoItem(news_item1.NewsPhotoItemId);
+            bool success = data_repo.AddPhotoItem(photo1);
+
             // Assert
-            Assert.AreEqual(2, found.Comments.Count);
+            Assert.IsTrue(success);
         }
 
         [TestMethod]
-        public void DataRepoUpdateGenericNewsProperty()
+        public void DataRepoReadPhotoItem()
         {
+            // Arrange
             DataRepository data_repo = new DataRepository(mock_context.Object);
-            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say" };
-            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say" };
-            List<Comment> commentList = new List<Comment>();
-            commentList.Add(comment1);
-            commentList.Add(comment2);
-            NewsPhotoItem news_item1 = new NewsPhotoItem()
+            Photo photo1 = new Photo()
             {
-                Title = "title",
-                HasPhoto = false,
-                Comments = commentList,
-                NewsPhotoItemId = 2,
-                //UserProfileId = 1,
-                Text = "news text"
+                PhotoId = 1,
+                Title = "my photo",
+                Text = "a picture of me",
+                TimeStamp = DateTime.Now,
+                Comments = null
             };
-            ConnectNewsMocksToDataSource();
-            
+            Photo photo2 = new Photo()
+            {
+                PhotoId = 2,
+                Title = "another photo",
+                Text = "a picture of me",
+                TimeStamp = DateTime.Now,
+                Comments = null
+            };
+            ConnectPhotoMocksToDataSource();
             // Act
-            var expected = "This method works";
-            int id = news_item1.NewsPhotoItemId;
-            DateTime time = new DateTime();
-            data_repo.AddNewsPhotoItem(news_item1);
-            data_repo.UpdateNewsProperty(id, "Title", "This method works");
-            data_repo.UpdateNewsProperty(id, "HasPhoto", true);
-            data_repo.UpdateNewsProperty(id, "TimeStamp", time);
-            var found = data_repo.GetNewsPhotoItem(news_item1.NewsPhotoItemId);
-            
-            // Assert            
-            Assert.AreEqual(expected, found.Title);
-            Assert.IsTrue(found.HasPhoto);
-            Assert.AreEqual(time, found.TimeStamp);
+            data_repo.AddPhotoItem(photo1);
+            data_repo.AddPhotoItem(photo2);
+            Photo found = data_repo.GetPhotoItem(photo2.PhotoId);
+
+            // Assert
+            Assert.AreEqual("another photo", found.Title);
         }
 
+        [TestMethod]
+        public void DataRepoUpdatePhotoItem()
+        {
+
+        }
+
+        [TestMethod]
+        public void DataRepoDeletePhotoItem()
+        {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            Photo photo1 = new Photo()
+            {
+                PhotoId = 1,
+                Title = "my photo",
+                Text = "a picture of me",
+                TimeStamp = DateTime.Now,
+                Comments = null
+            };
+            Photo photo2 = new Photo()
+            {
+                PhotoId = 2,
+                Title = "another photo",
+                Text = "a picture of me",
+                TimeStamp = DateTime.Now,
+                Comments = null
+            };
+            ConnectPhotoMocksToDataSource();
+            // Act
+            data_repo.AddPhotoItem(photo1);
+            data_repo.AddPhotoItem(photo2);
+            bool success = data_repo.DeletePhotoItem(photo1.PhotoId);
+            Photo found1 = data_repo.GetPhotoItem(photo1.PhotoId);
+            Photo found2 = data_repo.GetPhotoItem(photo2.PhotoId);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.IsNull(found1);
+            Assert.AreEqual("another photo", found2.Title);
+        }
     }
 }

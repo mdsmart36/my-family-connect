@@ -1,15 +1,14 @@
-﻿@model MyFamilyConnect.Models.NewsPhotoItem
+﻿@model MyFamilyConnect.Models.News
 
 @{
-    ViewBag.Title = "Details";
-    var base64 = Convert.ToBase64String(Model.Photo);
-    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    ViewBag.Title = "Delete";
 }
 
-<h2>Details</h2>
+<h2>Delete</h2>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>NewsPhotoItem</h4>
+    <h4>News</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -34,19 +33,9 @@
 
         <dd>
             @Html.DisplayFor(model => model.HasPhoto)
-        </dd>*@
+        </dd>
 
-        @if(Model.HasPhoto)
-        {            
-            <dt>
-                Photo
-            </dt>
-            <dd>
-                <img src="@imgSrc" alt="Photo" class="news-photo" />
-            </dd>
-        }
-
-        @*<dt>
+        <dt>
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
 
@@ -63,8 +52,13 @@
         </dd>
 
     </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.NewsPhotoItemId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
