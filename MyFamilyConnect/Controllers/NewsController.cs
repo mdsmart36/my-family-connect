@@ -33,8 +33,18 @@ namespace MyFamilyConnect.Controllers
             // Get all the news and photos associated with the current user
             ViewBag.Title = "My News";
             int profile_id = repository.GetCurrentUserProfile().UserProfileId;
-            List<News> my_news_items = repository.GetNewsForUser(profile_id);                        
+            List<News> my_news_items = repository.GetNewsForUser(profile_id);
+            ViewBag.CurrentUserId = profile_id;
             return View(my_news_items);
+        }
+
+        [Authorize]
+        public ActionResult AllNews()
+        {
+            ViewBag.Title = "All News";
+            ViewBag.CurrentUserId = repository.GetCurrentUserProfile().UserProfileId;
+            List<News> all_news = repository.GetAllNewsItems();
+            return View("Index", all_news);
         }
 
         // GET: NewsPhotoItem/Details/5
@@ -56,8 +66,7 @@ namespace MyFamilyConnect.Controllers
         }
 
         // POST: NewsPhotoItem/Create
-        [HttpPost, Authorize]
-        //public ActionResult Create(FormCollection form)
+        [HttpPost, Authorize]        
         public ActionResult Create(News item_to_add, FormCollection form)
         {
 
@@ -66,39 +75,9 @@ namespace MyFamilyConnect.Controllers
                 UserProfile profile = repository.GetCurrentUserProfile();
                 item_to_add.Title = form.Get("news-title");
                 item_to_add.Text = form.Get("news-text");
-                // include in signature parameters -- HttpPostedFileBase upload
-                //bool news_has_photo = Convert.ToBoolean(form.Get("news-has-photo").Split(',')[0]);
-
-                //item_to_add.HasPhoto = false;
+                
                 item_to_add.UserProfile = profile;
-                item_to_add.Comments = null;
-                //byte[] news_image = null;
-
-                //if (upload != null && upload.ContentLength > 0)
-                //{
-                    //var photo = new File
-                    //{
-                    //    FileName = System.IO.Path.GetFileName(upload.FileName),
-                    //    FileType = FileType.Avatar,
-                    //    ContentType = upload.ContentType
-                    //};
-                    //item_to_add.HasPhoto = true;
-                //    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                //    {
-                //        item_to_add.Photo = reader.ReadBytes(upload.ContentLength);
-                //    }
-                    
-                //}
-
-                //item_to_add
-                //{
-                //    Title = news_title,
-                //    Text = news_text,
-                //    HasPhoto = news_has_photo,
-                //    Photo = news_image,
-                //    UserProfile = profile,
-                //    Comments = null
-                //};
+                item_to_add.Comments = null;                
 
                 repository.AddNewsItem(item_to_add);
                 return RedirectToAction("Index");

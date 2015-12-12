@@ -24,7 +24,8 @@ textarea {
     max-width: 280px;
 }
 
-.news-photo {
+.small-photo {
     max-width: 25%;
-    max-height: 25%
+    max-height: 25%;
+    display: inline;
 }
