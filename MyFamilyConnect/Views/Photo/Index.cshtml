@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MyFamilyConnect.Models.Photo>
+
+@{
+    ViewBag.Title = "Index";
+    string base64, imgSrc;
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div>
+    @foreach (var photo in Model)
+    {
+        base64 = Convert.ToBase64String(photo.Content);
+        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+        <img src="@imgSrc" class="small-photo"/>
+    }
+</div>
+
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserProfile.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PhotoId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PhotoId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PhotoId })
+        </td>
+    </tr>
+}
+
+</table>*@
