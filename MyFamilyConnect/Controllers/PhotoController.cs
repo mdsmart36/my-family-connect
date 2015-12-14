@@ -31,6 +31,16 @@ namespace MyFamilyConnect.Controllers
             return View(my_photo_items);            
         }
 
+        [Authorize]
+        public ActionResult AllPhotos()
+        {
+            ViewBag.Title = "All Photos";
+            ViewBag.CurrentUserId = repository.GetCurrentUserProfile().UserProfileId;
+            List<Photo> all_photos = repository.GetAllPhotoItems();
+            return View("Index", all_photos);
+        }
+
+
         // GET: Photo/Details/5
         [Authorize]
         public ActionResult Details(int id)

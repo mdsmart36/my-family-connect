@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<MyFamilyConnect.Models.Photo>
 
 @{
-    ViewBag.Title = "Index";
     string base64, imgSrc;
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -15,8 +14,15 @@
     @foreach (var photo in Model)
     {
         base64 = Convert.ToBase64String(photo.Content);
-        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-        <img src="@imgSrc" class="small-photo"/>
+        imgSrc = String.Format("data:image/gif;base64,{0}", base64);        
+        <img src="@imgSrc" class="small-photo" />
+        if (ViewBag.CurrentUserId == photo.UserProfile.UserProfileId)
+        {
+            @Html.ActionLink("Edit | ", "Edit", new { id = photo.PhotoId })
+            @Html.ActionLink("Delete | ", "Delete", new { id = photo.PhotoId })
+        }
+        @Html.ActionLink("Details", "Details", new { id = photo.PhotoId })
+        
     }
 </div>
 
