@@ -51,10 +51,8 @@ namespace MyFamilyConnect.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {            
-            News item_to_show = repository.GetNewsItem(id);
-            //MemoryStream ms = new MemoryStream(item_to_show.Photo);
-            //Image returnImage = Image.FromStream(ms);
-            //ViewBag.Photo = returnImage;
+            News item_to_show = repository.GetNewsItem(id);            
+            ViewBag.CurrentNewsId = item_to_show.NewsId;
             return View(item_to_show);
         }
 
@@ -137,6 +135,19 @@ namespace MyFamilyConnect.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public ActionResult CreateNewsComment(Comment comment_to_add, FormCollection form)
+        {            
+            int comment_news_id = int.Parse(form.Get("news-id"));            
+            comment_to_add.Text = form.Get("comment-text");
+            comment_to_add.UserProfile = repository.GetCurrentUserProfile();
+            comment_to_add.NewsItem = repository.GetNewsItem(comment_news_id);
+            comment_to_add.PhotoItem = null;
+            repository.AddComment(comment_to_add);            
+            return RedirectToAction("Details", new { id = comment_news_id});
+
         }
     }
 }

@@ -15,6 +15,7 @@ namespace MyFamilyConnect.Models
         public string Title { get; set; }
         public string Text { get; set; }       
         public byte[] Content { get; set; }
+        [Display(Name ="Date")]
         public DateTime TimeStamp { get; set; }
 
         // Foreign keys        

@@ -12,7 +12,9 @@ namespace MyFamilyConnect.Models
         [Key]
         public int UserProfileId { get; set; }
         public ApplicationUser Owner { get; set; }
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public DateTime? Birthdate { get; set; }
         public string Address1 { get; set; }

@@ -37,6 +37,29 @@
         </dd>
 
     </dl>
+
+    @foreach (var comment in Model.Comments)
+    {
+        <p>@comment.Text</p>
+        <p>by @comment.UserProfile.FirstName @comment.UserProfile.LastName</p>
+        <hr />
+    }
+
+    <div id="comment-modal" role="dialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @using (Html.BeginForm("CreateNewsComment", "News", FormMethod.Post, new { id = "comment-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("news-id", ViewBag.CurrentNewsId as object)
+                    <div class="modal-body">@Html.TextArea("comment-text")</div>
+                    <div class="modal-footer"><input class="btn" type="submit" value="Submit" /></div>
+                }
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-info" data-toggle="modal" data-target="#comment-modal">Add Comment</button>
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.NewsId }) |
