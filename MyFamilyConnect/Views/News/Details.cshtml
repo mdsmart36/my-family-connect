@@ -38,14 +38,20 @@
 
     </dl>
 
-    @foreach (var comment in Model.Comments)
-    {
-        <p>@comment.Text</p>
-        <p>by @comment.UserProfile.FirstName @comment.UserProfile.LastName</p>
-        <hr />
-    }
+    <h4>Comments</h4>
+    <dl class="dl-horizontal">
+        @foreach (var comment in Model.Comments)
+        {
+            <dt>@comment.UserProfile.FirstName @comment.UserProfile.LastName</dt>            
+            <dd>@comment.Text</dd>
+        }
+    </dl>
+    
+    @*<a href="">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </a>*@
 
-    <div id="comment-modal" role="dialog" class="modal fade">
+    @*<div id="comment-modal" role="dialog" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 @using (Html.BeginForm("CreateNewsComment", "News", FormMethod.Post, new { id = "comment-form" }))
@@ -58,10 +64,22 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-info" data-toggle="modal" data-target="#comment-modal">Add Comment</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#comment-modal">Add Comment</button>*@
+    @using (Html.BeginForm("CreateNewsComment", "News", FormMethod.Post, new { id = "comment-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("news-id", ViewBag.CurrentNewsId as object)
+        @Html.TextArea("comment-text", new { @class="form-control" })
+        <input class="btn btn-sm btn-success" type="submit" value="Add Comment" />
+    }
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.NewsId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (ViewBag.CurrentUserId == Model.UserProfile.UserProfileId)
+    {
+        @Html.ActionLink("Edit |", "Edit", new { id = Model.NewsId })
+    }
+    
+    @Html.ActionLink("My News", "Index") |
+    @Html.ActionLink("All News", "AllNews")
 </p>

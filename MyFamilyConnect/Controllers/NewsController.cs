@@ -30,7 +30,7 @@ namespace MyFamilyConnect.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            // Get all the news and photos associated with the current user
+            // Get all the news associated with the current user
             ViewBag.Title = "My News";
             int profile_id = repository.GetCurrentUserProfile().UserProfileId;
             List<News> my_news_items = repository.GetNewsForUser(profile_id);
@@ -53,6 +53,7 @@ namespace MyFamilyConnect.Controllers
         {            
             News item_to_show = repository.GetNewsItem(id);            
             ViewBag.CurrentNewsId = item_to_show.NewsId;
+            ViewBag.CurrentUserId = repository.GetCurrentUserProfile().UserProfileId;
             return View(item_to_show);
         }
 
@@ -67,23 +68,22 @@ namespace MyFamilyConnect.Controllers
         [HttpPost, Authorize]        
         public ActionResult Create(News item_to_add, FormCollection form)
         {
-
             try
             {
                 UserProfile profile = repository.GetCurrentUserProfile();
-                item_to_add.Title = form.Get("news-title");
-                item_to_add.Text = form.Get("news-text");
-                
                 item_to_add.UserProfile = profile;
-                item_to_add.Comments = null;                
-
-                repository.AddNewsItem(item_to_add);
-                return RedirectToAction("Index");
+                item_to_add.Comments = null;                                
+                if (ModelState.IsValid)
+                {
+                    repository.AddNewsItem(item_to_add);
+                    return RedirectToAction("Index");
+                }                                
             }
             catch
             {
                 return View();
             }
+            return RedirectToAction("Index");
         }
 
         // GET: NewsPhotoItem/Edit/5
@@ -147,7 +147,6 @@ namespace MyFamilyConnect.Controllers
             comment_to_add.PhotoItem = null;
             repository.AddComment(comment_to_add);            
             return RedirectToAction("Details", new { id = comment_news_id});
-
         }
     }
 }

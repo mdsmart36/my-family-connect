@@ -25,43 +25,19 @@ namespace MyFamilyConnect.Controllers
         }
 
         // GET: UserProfiles
+        [Authorize]
         public ActionResult Index()
-        {
-            // Get the user profile
+        {            
             List<UserProfile> profiles = repository.GetAllUserProfiles();
             return View(profiles);
         }
-
-        // GET: UserProfiles/Details/5
-        //public ActionResult Details(int id)
+        
+        [Authorize]
         public ActionResult Details()
         {
-            //UserProfile item_to_show = repository.GetUserProfile(id);
             UserProfile item_to_show = repository.GetCurrentUserProfile();
             return View(item_to_show);            
-        }
-
-        // GET: UserProfiles/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        // POST: UserProfiles/Create
-        //[HttpPost]
-        //public ActionResult Create(FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        }        
 
         // GET: UserProfiles/Edit/5
         [Authorize]
@@ -74,8 +50,7 @@ namespace MyFamilyConnect.Controllers
         }
 
         // POST: UserProfiles/Edit/5
-        [HttpPost, Authorize]
-        //public ActionResult Edit(int id, FormCollection collection)
+        [HttpPost, Authorize]        
         public ActionResult Edit(FormCollection collection)
         {
             try
@@ -94,30 +69,7 @@ namespace MyFamilyConnect.Controllers
             catch
             {
                 return View();
-            }
-            
-        }
-
-        // GET: UserProfiles/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: UserProfiles/Delete/5
-        //[HttpPost, Authorize]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        repository.DeleteUserProfile(id);
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-
-        //}
+            }            
+        }        
     }
 }
