@@ -32,7 +32,7 @@
             Photo
         </dt>
         <dd>
-            <img src="@imgSrc" alt="Photo" class="news-photo" />
+            <img src="@imgSrc" alt="Photo" class="small-photo" />
         </dd>
         
         <dt>
@@ -44,6 +44,23 @@
         </dd>
 
     </dl>
+    <h4>Comments</h4>
+    <dl class="dl-horizontal">
+        @foreach (var comment in Model.Comments)
+        {
+            <dt>@comment.UserProfile.FirstName @comment.UserProfile.LastName</dt>
+            <dd>@comment.Text</dd>
+        }
+    </dl>
+
+    @using (Html.BeginForm("CreatePhotoComment", "Photo", FormMethod.Post, new { id = "comment-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("photo-id", ViewBag.CurrentPhotoId as object)
+        @Html.TextArea("comment-text", new { @class = "form-control" })
+        <input class="btn btn-sm btn-success" type="submit" value="Add Comment" />
+    }
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PhotoId }) |

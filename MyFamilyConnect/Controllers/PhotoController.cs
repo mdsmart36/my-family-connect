@@ -46,9 +46,8 @@ namespace MyFamilyConnect.Controllers
         public ActionResult Details(int id)
         {
             Photo item_to_show = repository.GetPhotoItem(id);
-            //MemoryStream ms = new MemoryStream(item_to_show.Content);
-            //Image returnImage = Image.FromStream(ms);
-            //ViewBag.Photo = returnImage;
+            ViewBag.CurrentPhotoId = item_to_show.PhotoId;
+            ViewBag.CurrentUserId = repository.GetCurrentUserProfile().UserProfileId;
             return View(item_to_show);            
         }
 
@@ -139,6 +138,18 @@ namespace MyFamilyConnect.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost, Authorize]
+        public ActionResult CreatePhotoComment(Comment comment_to_add, FormCollection form)
+        {
+            int comment_photo_id = int.Parse(form.Get("photo-id"));
+            comment_to_add.Text = form.Get("comment-text");
+            comment_to_add.UserProfile = repository.GetCurrentUserProfile();
+            comment_to_add.NewsItem = null;
+            comment_to_add.PhotoItem = repository.GetPhotoItem(comment_photo_id);
+            repository.AddComment(comment_to_add);
+            return RedirectToAction("Details", new { id = comment_photo_id });
         }
     }
 }
