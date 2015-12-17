@@ -187,13 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201512071628569_InitialCreate.cs" />
-    <Compile Include="Migrations\201512071628569_InitialCreate.Designer.cs">
-      <DependentUpon>201512071628569_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512121713106_AddPhotoModel.cs" />
-    <Compile Include="Migrations\201512121713106_AddPhotoModel.Designer.cs">
-      <DependentUpon>201512121713106_AddPhotoModel.cs</DependentUpon>
+    <Compile Include="Migrations\201512170327508_InitialCreate.cs" />
+    <Compile Include="Migrations\201512170327508_InitialCreate.Designer.cs">
+      <DependentUpon>201512170327508_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -298,11 +294,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512071628569_InitialCreate.resx">
-      <DependentUpon>201512071628569_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512121713106_AddPhotoModel.resx">
-      <DependentUpon>201512121713106_AddPhotoModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512170327508_InitialCreate.resx">
+      <DependentUpon>201512170327508_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

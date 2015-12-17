@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyFamilyConnect.Models;
+using System.Threading.Tasks;
 
 namespace MyFamilyConnect.Controllers
 {
@@ -127,11 +128,12 @@ namespace MyFamilyConnect.Controllers
 
         // POST: Photo/Delete/5
         [HttpPost, Authorize]
-        public ActionResult Delete(int id, FormCollection collection)
+        public async Task<ActionResult> Delete(int id, FormCollection collection)
         {
             try
             {
-                repository.DeletePhotoItem(id);
+                await repository.DeletePhotoItem(id);
+                
                 return RedirectToAction("Index");
             }
             catch

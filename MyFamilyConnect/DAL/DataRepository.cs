@@ -438,9 +438,9 @@ namespace MyFamilyConnect.Models
             context.Entry(item_to_update).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
             return true;
-        }        
+        }
 
-        public bool DeletePhotoItem(int photoId)
+        public async Task<int> DeletePhotoItem(int photoId)
         {
             var result = true;
             try
@@ -448,13 +448,20 @@ namespace MyFamilyConnect.Models
                 var query = context.Photos.Where(n => n.PhotoId == photoId);
                 var itemToDelete = query.First();
                 context.Photos.Remove(itemToDelete);
-                context.SaveChanges();
+                return await context.SaveChangesAsync();
+                //return 1;
+
+                //Photo photo_to_delete = new Photo { PhotoId = photoId };
+                //context.Entry(photo_to_delete).State = EntityState.Deleted;
+                //context.SaveChanges();
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 result = false;
+                throw;
             }
-            return result;
+            //return result;
         }
 
         public Photo GetPhotoItem(int photoId)

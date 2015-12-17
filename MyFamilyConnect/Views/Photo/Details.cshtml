@@ -63,6 +63,14 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PhotoId }) |
+    @if (ViewBag.CurrentUserId == Model.UserProfile.UserProfileId)
+    {
+        @Html.ActionLink("Edit | ", "Edit", new { id = Model.PhotoId })
+        @Html.ActionLink("Delete ", "Delete", new { id = Model.PhotoId })
+    }
+</p>
+
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.PhotoId }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -16,11 +16,6 @@
         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);            
         <a href="/Photo/Details/@photo.PhotoId" >
             <img src="@imgSrc" class="small-photo" />
-        </a>
-        @*@if (ViewBag.CurrentUserId == photo.UserProfile.UserProfileId)
-        {
-            @Html.ActionLink("Edit | ", "Edit", new { id = photo.PhotoId })
-            @Html.ActionLink("Delete | ", "Delete", new { id = photo.PhotoId })
-        }*@       
+        </a>       
     }
 

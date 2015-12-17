@@ -18,6 +18,8 @@ namespace MyFamilyConnect.Models
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            //modelBuilder.Entity<Photo>().HasOptional(a => a.Comments).WithOptionalDependent().WillCascadeOnDelete(true);
+            //modelBuilder.Entity<News>().HasOptional(a => a.Comments).WithOptionalDependent().WillCascadeOnDelete();
         }
     }
 }
