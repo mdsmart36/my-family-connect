@@ -66,8 +66,8 @@ namespace MyFamilyConnect.Controllers
             try
             {
                 UserProfile profile = repository.GetCurrentUserProfile();
-                item_to_add.Title = form.Get("photo-title");
-                item_to_add.Text = form.Get("photo-text");
+                //item_to_add.Title = form.Get("photo-title");
+                //item_to_add.Text = form.Get("photo-text");
                 item_to_add.UserProfile = profile;
                 item_to_add.Comments = null;                
 
@@ -80,14 +80,17 @@ namespace MyFamilyConnect.Controllers
 
                 }                
 
-                repository.AddPhotoItem(item_to_add);
-                return RedirectToAction("Index");
-
+                if (ModelState.IsValid)
+                {
+                    repository.AddPhotoItem(item_to_add);
+                    return RedirectToAction("Index");
+                }                
             }
             catch
             {
                 return View();
             }
+            return RedirectToAction("Index");
         }
 
         // GET: Photo/Edit/5

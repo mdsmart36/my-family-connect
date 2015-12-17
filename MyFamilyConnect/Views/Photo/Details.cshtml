@@ -11,39 +11,11 @@
 <div>
     <h4>Photo</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <h3>@Html.DisplayFor(model => model.Title)</h3>
+    <blockquote>@Html.DisplayFor(model => model.Text)</blockquote>
+    <img src="@imgSrc" alt="Photo" class="small-photo" />
+    <p>Posted: @Model.TimeStamp</p>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-
-        <dt>
-            Photo
-        </dt>
-        <dd>
-            <img src="@imgSrc" alt="Photo" class="small-photo" />
-        </dd>
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeStamp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TimeStamp)
-        </dd>
-
-    </dl>
     <h4>Comments</h4>
     <dl class="dl-horizontal">
         @foreach (var comment in Model.Comments)
@@ -60,7 +32,6 @@
         @Html.TextArea("comment-text", new { @class = "form-control" })
         <input class="btn btn-sm btn-success" type="submit" value="Add Comment" />
     }
-
 </div>
 <p>
     @if (ViewBag.CurrentUserId == Model.UserProfile.UserProfileId)

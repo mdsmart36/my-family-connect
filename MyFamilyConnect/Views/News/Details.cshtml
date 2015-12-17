@@ -9,7 +9,11 @@
 <div>
     <h4>News</h4>
     <hr />
-    <dl class="dl-horizontal">
+
+    <h3>@Html.DisplayFor(model => model.Title)</h3>
+    <blockquote>@Html.DisplayFor(model => model.Text)</blockquote>
+
+    @*<dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -36,7 +40,7 @@
             @Html.DisplayFor(model => model.TimeStamp)
         </dd>
 
-    </dl>
+    </dl>*@
 
     <h4>Comments</h4>
     <dl class="dl-horizontal">
@@ -77,7 +81,8 @@
 <p>
     @if (ViewBag.CurrentUserId == Model.UserProfile.UserProfileId)
     {
-        @Html.ActionLink("Edit |", "Edit", new { id = Model.NewsId })
+        @Html.ActionLink("Edit | ", "Edit", new { id = Model.NewsId })
+        @Html.ActionLink("Delete | ", "Delete", new { id = Model.NewsId })
     }
     
     @Html.ActionLink("My News", "Index") |

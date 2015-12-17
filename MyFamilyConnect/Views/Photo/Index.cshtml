@@ -15,7 +15,7 @@
         var base64 = Convert.ToBase64String(photo.Content);
         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);            
         <a href="/Photo/Details/@photo.PhotoId" >
-            <img src="@imgSrc" class="small-photo" />
+            <img src="@imgSrc" class="small-photo" data-toggle="tooltip" data-placement="top" title="@photo.Text"/>
         </a>       
     }
 
