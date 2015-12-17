@@ -128,12 +128,11 @@ namespace MyFamilyConnect.Controllers
 
         // POST: Photo/Delete/5
         [HttpPost, Authorize]
-        public async Task<ActionResult> Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                await repository.DeletePhotoItem(id);
-                
+                repository.DeletePhotoItem(id);                
                 return RedirectToAction("Index");
             }
             catch

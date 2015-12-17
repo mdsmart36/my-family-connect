@@ -632,7 +632,7 @@ namespace MyFamilyConnect.Tests.Models
             // Act
             data_repo.AddPhotoItem(photo1);
             data_repo.AddPhotoItem(photo2);
-            Task<bool> success = data_repo.DeletePhotoItem(photo1.PhotoId);
+            bool success = data_repo.DeletePhotoItem(photo1.PhotoId);
             Photo found1 = data_repo.GetPhotoItem(photo1.PhotoId);
             Photo found2 = data_repo.GetPhotoItem(photo2.PhotoId);
 

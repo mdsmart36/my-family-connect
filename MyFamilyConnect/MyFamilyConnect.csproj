@@ -191,6 +191,10 @@
     <Compile Include="Migrations\201512170327508_InitialCreate.Designer.cs">
       <DependentUpon>201512170327508_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512171734577_12172015.cs" />
+    <Compile Include="Migrations\201512171734577_12172015.Designer.cs">
+      <DependentUpon>201512171734577_12172015.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -296,6 +300,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512170327508_InitialCreate.resx">
       <DependentUpon>201512170327508_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512171734577_12172015.resx">
+      <DependentUpon>201512171734577_12172015.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

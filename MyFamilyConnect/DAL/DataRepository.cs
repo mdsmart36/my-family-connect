@@ -109,14 +109,20 @@ namespace MyFamilyConnect.Models
             return true;
         }
 
-        public bool DeleteNewsItem(int newsPhotoId)
+        public bool DeleteNewsItem(int newsId)
         {
             var result = true;
             try
             {
-                var query = context.News.Where(n => n.NewsId == newsPhotoId);
-                var itemToDelete = query.First();
-                context.News.Remove(itemToDelete);
+                // THIS IS THE STANDARD WAY TO SEARCH AND DELETE WHEN THERE AREN'T CHILD ENTITIES
+                //var query = context.News.Where(n => n.NewsId == newsPhotoId);
+                //var itemToDelete = query.First();
+                //context.News.Remove(itemToDelete);
+
+                // THIS IS A WAY TO DO 'EAGER LOADING' (LOADING THE CHILD ENTITIES INTO THE CONTEXT)
+                // SEE http://stackoverflow.com/questions/15226312/entityframewok-how-to-configure-cascade-delete-to-nullify-foreign-keys
+                var query = context.Set<News>().Include(m => m.Comments).SingleOrDefault(n => n.NewsId == newsId);
+                context.Set<News>().Remove(query);
                 context.SaveChanges();
             }
             catch (Exception)
@@ -440,28 +446,29 @@ namespace MyFamilyConnect.Models
             return true;
         }
 
-        public async Task<int> DeletePhotoItem(int photoId)
+        public bool DeletePhotoItem(int photoId)
         {
             var result = true;
             try
             {
-                var query = context.Photos.Where(n => n.PhotoId == photoId);
-                var itemToDelete = query.First();
-                context.Photos.Remove(itemToDelete);
-                return await context.SaveChangesAsync();
-                //return 1;
+                // THIS IS THE STANDARD WAY TO SEARCH AND DELETE WHEN THERE AREN'T CHILD ENTITIES
+                //var query = context.Photos.Where(n => n.PhotoId == photoId);
+                //var itemToDelete = query.First();
+                //context.Photos.Remove(itemToDelete);
 
-                //Photo photo_to_delete = new Photo { PhotoId = photoId };
-                //context.Entry(photo_to_delete).State = EntityState.Deleted;
-                //context.SaveChanges();
-
+                // THIS IS A WAY TO DO 'EAGER LOADING' (LOADING THE CHILD ENTITIES INTO THE CONTEXT),
+                // DELETE THE PARENT, AND NULLIFY THE FOREIGN KEYS IN THE CHILD
+                // SEE http://stackoverflow.com/questions/15226312/entityframewok-how-to-configure-cascade-delete-to-nullify-foreign-keys
+                var query = context.Set<Photo>().Include(m => m.Comments).SingleOrDefault(n => n.PhotoId == photoId);
+                context.Set<Photo>().Remove(query);
+                context.SaveChanges();
             }
             catch (Exception e)
             {
                 result = false;
                 throw;
             }
-            //return result;
+            return result;
         }
 
         public Photo GetPhotoItem(int photoId)

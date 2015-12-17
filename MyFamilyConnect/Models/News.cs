@@ -17,7 +17,7 @@ namespace MyFamilyConnect.Models
         // Foreign keys        
         
         
-        // Navigation properties
+        // Navigation properties        
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
