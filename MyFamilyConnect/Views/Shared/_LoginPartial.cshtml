@@ -10,12 +10,14 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account<span class="caret" id="caret"></span></a>
             <ul class="dropdown-menu">
                 <li>
+                    <span class="small">@User.Identity.Name</span>
                     @Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li>@Html.ActionLink("Update Profile", "Edit", "UserProfiles")</li>
             </ul>
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        @*<p class="small">@User.Identity.Name</p>*@
     </ul>
     }
 }

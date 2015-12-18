@@ -50,5 +50,12 @@ namespace MyFamilyConnect.Controllers
 
             return View();
         }
+
+        [Authorize]
+        public ActionResult Chat()
+        {
+            ViewBag.ChatName = repository.GetCurrentUserProfile().FirstName;
+            return View();
+        }
     }
 }
