@@ -12,35 +12,7 @@
 
     <h3>@Html.DisplayFor(model => model.Title)</h3>
     <blockquote>@Html.DisplayFor(model => model.Text)</blockquote>
-
-    @*<dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>       
-
-                       
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeStamp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TimeStamp)
-        </dd>
-
-    </dl>*@
+    <p>Posted by @Model.UserProfile.FirstName @Model.UserProfile.LastName on @Model.TimeStamp.ToShortDateString()</p>
 
     <h4>Comments</h4>
     <dl class="dl-horizontal">
@@ -51,24 +23,6 @@
         }
     </dl>
     
-    @*<a href="">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-    </a>*@
-
-    @*<div id="comment-modal" role="dialog" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                @using (Html.BeginForm("CreateNewsComment", "News", FormMethod.Post, new { id = "comment-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("news-id", ViewBag.CurrentNewsId as object)
-                    <div class="modal-body">@Html.TextArea("comment-text")</div>
-                    <div class="modal-footer"><input class="btn" type="submit" value="Submit" /></div>
-                }
-            </div>
-        </div>
-    </div>
-    <button class="btn btn-info" data-toggle="modal" data-target="#comment-modal">Add Comment</button>*@
     @using (Html.BeginForm("CreateNewsComment", "News", FormMethod.Post, new { id = "comment-form" }))
     {
         @Html.AntiForgeryToken()

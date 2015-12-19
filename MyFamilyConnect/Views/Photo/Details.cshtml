@@ -14,7 +14,7 @@
     <h3>@Html.DisplayFor(model => model.Title)</h3>
     <blockquote>@Html.DisplayFor(model => model.Text)</blockquote>
     <img src="@imgSrc" alt="Photo" class="small-photo" />
-    <p>Posted: @Model.TimeStamp</p>
+    <p>Posted by @Model.UserProfile.FirstName @Model.UserProfile.LastName on @Model.TimeStamp.ToShortDateString()</p>
 
     <h4>Comments</h4>
     <dl class="dl-horizontal">
@@ -37,11 +37,10 @@
     @if (ViewBag.CurrentUserId == Model.UserProfile.UserProfileId)
     {
         @Html.ActionLink("Edit | ", "Edit", new { id = Model.PhotoId })
-        @Html.ActionLink("Delete ", "Delete", new { id = Model.PhotoId })
+        @Html.ActionLink("Delete | ", "Delete", new { id = Model.PhotoId })
     }
+    @Html.ActionLink("My Photos", "Index") |
+    @Html.ActionLink("All Photos", "AllPhotos")
 </p>
-
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.PhotoId }) |*@
-    @Html.ActionLink("Back to List", "Index")
-</p>
+   
+    
