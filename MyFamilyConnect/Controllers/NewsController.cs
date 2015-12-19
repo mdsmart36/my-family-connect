@@ -129,6 +129,7 @@ namespace MyFamilyConnect.Controllers
             try
             {                                                
                 repository.DeleteNewsItem(id);
+                repository.DeleteOrphanedComments();
                 return RedirectToAction("Index");
             }
             catch

@@ -135,7 +135,8 @@ namespace MyFamilyConnect.Controllers
         {
             try
             {
-                repository.DeletePhotoItem(id);                
+                repository.DeletePhotoItem(id);
+                repository.DeleteOrphanedComments();                
                 return RedirectToAction("Index");
             }
             catch

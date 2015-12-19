@@ -367,6 +367,27 @@ namespace MyFamilyConnect.Models
             return result;
         }
 
+        public bool DeleteOrphanedComments()
+        {
+            var result = true;
+            try
+            {
+                var query = context.Comments.Where(c => c.NewsItem == null && c.PhotoItem == null);
+                var query_list = query.ToList();
+                foreach (var comment in query_list)
+                {
+                    context.Comments.Remove(comment);
+                }
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+            return result;
+        }
+
         /****************************************
         *
         * CRUD OPERATIONS FOR PHOTO RECORDS

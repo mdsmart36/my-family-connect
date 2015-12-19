@@ -545,6 +545,33 @@ namespace MyFamilyConnect.Tests.Models
             Assert.IsTrue(success);
         }
 
+        [TestMethod]
+        public void DataRepoCanDeleteOrphanedComments()
+        {
+            // Arrange
+            DataRepository data_repo = new DataRepository(mock_context.Object);
+            News news1 = new News { NewsId = 1, Text = "news1 text" };
+            Photo photo1 = new Photo { PhotoId = 1, Text = "photo1 text" };
+            Comment comment1 = new Comment { CommentId = 1, Text = "this is what i had to say", NewsItem = news1 };
+            Comment comment2 = new Comment { CommentId = 2, Text = "I wish I had more to say", PhotoItem = photo1 };
+            Comment comment3 = new Comment { CommentId = 3, Text = "I wish I had more to say", NewsItem = null, PhotoItem = null };
+            Comment comment4 = new Comment { CommentId = 4, Text = "I wish I had more to say", NewsItem = null, PhotoItem = null };
+            ConnectCommentMocksToDataSource();
+
+            // Act
+            data_repo.AddComment(comment1);
+            data_repo.AddComment(comment2);
+            data_repo.AddComment(comment3);
+            data_repo.AddComment(comment4);
+            bool success = data_repo.DeleteOrphanedComments();
+
+            // Assert
+            Assert.IsTrue(success); // deleted orphaned comments
+            Assert.IsNull(data_repo.GetComment(comment3.CommentId)); // comment3 is no longer in data store
+            Assert.AreEqual(2, data_repo.GetCommentCount());
+
+        }
+
         // *******************************
         // TESTS FOR PHOTO RECORDS
         // *******************************
